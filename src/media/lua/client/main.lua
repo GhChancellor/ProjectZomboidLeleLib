@@ -218,7 +218,7 @@ local function baseCalories()
 end
 
 local function baseWeight()
-    local weight = 65.0
+    local weight = 83
     local weight_
     isoPlayerPZ.setWeight_PZ(weight)
 
