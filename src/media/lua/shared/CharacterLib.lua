@@ -111,7 +111,7 @@ end
 ---@param character IsoGameCharacter
 ---@return CharacterObj getPerkDetails() -- table PerkFactory.Perk perk, int level, float xp
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
-function CharacterLib.getAllSkills(character)
+function CharacterLib.getAllPerks(character)
     if not character then
         return nil
     end
@@ -138,6 +138,27 @@ function CharacterLib.getAllSkills(character)
     return CharacterObj01
 end
 
+---Get character Multiplier
+---@param character IsoGameCharacter
+---@return CharacterObj getPerkDetails() -- table PerkFactory.Perk perk, int level, float xp
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+function CharacterLib.getMultiplier(character)
+    if not character then
+        return nil
+    end
+
+    local CharacterObj01 = CharacterObj:new()
+    CharacterObj01 = CharacterLib.getAllPerks(character)
+
+    for _, v in pairs(CharacterObj01:getPerkDetails()) do
+        local multiplier = characterPz.getMultiplier_PZ(character, v:getPerk())
+        v:setMultiplier(multiplier)
+    end
+
+    return CharacterObj01
+end
+
+
 ---Get character Perks Boosts
 ---@param character IsoGameCharacter
 ---@return CharacterObj getPerkDetails() -- table PerkFactory.Perk perk, int level, float xp
@@ -148,7 +169,7 @@ function CharacterLib.getPerksBoost(character)
     end
 
     local CharacterObj01 = CharacterObj:new()
-    CharacterObj01 = CharacterLib.getAllSkills(character)
+    CharacterObj01 = CharacterLib.getAllPerks(character)
 
     for _, v in pairs(CharacterObj01:getPerkDetails()) do
         local boost = characterPz.getPerkBoost_PZ(character, v:getPerk())
@@ -168,7 +189,7 @@ function CharacterLib.getKnownRecipes(character)
     end
 
     local CharacterObj01 = CharacterObj:new()
-    local knowRecipes = characterPz.getKnownRecipes_PZ()
+    local knowRecipes = characterPz.getKnownRecipes_PZ(character)
 
     for i = 0, knowRecipes:size() - 1 do
         CharacterObj01:addRecipe(knowRecipes:get(i))

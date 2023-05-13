@@ -8,6 +8,7 @@ require("lib/DbgLeleLib")
 local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZ = require("lib/PerkFactoryPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
+local modDataX = require("lib/ModDataX")
 local characterLib = require("CharacterLib")
 
 local test_ = "Test - "
@@ -226,6 +227,48 @@ local function baseWeight()
     checkTest(weight_, weight, "Weight" )
 end
 
+local function baseModData()
+    local value = 10
+    local values = {1 ,2 ,3 ,4 ,5}
+
+    local characterModData = "characterModData"
+
+    modDataX.saveModata(characterModData, value)
+
+    local results = {}
+    results = modDataX.readModata(characterModData)
+    local result = results[1]
+
+    checkTest(result, value, "ModData single value")
+
+    if modDataX.isExists(characterModData) then
+        checkTest(true, true, "ModData isExists")
+    end
+
+    if modDataX.remove(characterModData) ~= false then
+        modDataX.remove(characterModData)
+        checkTest(true, true, "ModData Remove")
+    end
+
+    modDataX.saveModata(characterModData, values)
+
+    local results = {}
+    results = modDataX.readModata(characterModData)
+
+    if type(results) == "table" then
+        checkTest(true, true, "ModData multi value")
+    end
+
+    if modDataX.isExists(characterModData) then
+        checkTest(true, true, "ModData isExists")
+    end
+
+    if modDataX.remove(characterModData) ~= false then
+        modDataX.remove(characterModData)
+        checkTest(true, true, "ModData Remove")
+    end
+end
+
 --- ------------------------------------------------
 
 local function traitsPerk()
@@ -280,9 +323,11 @@ local function perkProfession()
     characterPz.removeAllTraits_PZ(character)
 end
 
+--- ------------------------------------------------------------
+
 local function characterLibAllSkills()
     local CharacterObj01 = CharacterObj:new()
-    CharacterObj01 = characterLib.getAllSkills(character)
+    CharacterObj01 = characterLib.getAllPerks(character)
 
     local flag = false
     if CharacterObj01:getPerkDetails() then
@@ -327,7 +372,9 @@ local function characterLibKnownRecipes()
     character = getPlayer()
 
     local CharacterObj01 = CharacterObj:new()
+    CharacterObj01 = characterLib.getKnownRecipes(character)
 
+    ---@type boolean
     local flag = false
     for i, v in pairs(CharacterObj01:getRecipes()) do
         if v == recipe then
@@ -335,10 +382,24 @@ local function characterLibKnownRecipes()
         end
     end
 
-    checkTest(true,
+    checkTest(flag,
             true, "KnownRecipes")
 
 end
+
+-- TODO finire
+local function characterLibMultiplier()
+    local boostLevel = 1
+
+    characterPz.setPerkBoost_PZ(character, Perks.Cooking, boostLevel)
+
+    checkTest(characterPz.getPerkBoost_PZ(character, Perks.Cooking),
+            boostLevel, "PerkBoost")
+
+    characterPz.removePerkBoost(character, Perks.Cooking)
+end
+--- ------------------------------------------------------------
+
 
 
 --- ------------------------------------
@@ -377,6 +438,7 @@ local function baseTest()
     baseWeight()
     baseHoursSurvived()
     baseCalories()
+    baseModData()
     print("---------- finish Base test ----------\n")
 end
 
@@ -384,10 +446,11 @@ local function characterLibTest()
     print("---------- CharacterLib ----------\n")
     traitsPerk()
     perkProfession()
-    -- -- currentSkill()
+    ---- -- currentSkill()
     characterLibAllSkills()
     characterLibPerksBoost()
     characterLibKnownRecipes()
+    characterLibMultiplier()
     print("---------- finish CharacterLib test ----------\n")
 end
 
