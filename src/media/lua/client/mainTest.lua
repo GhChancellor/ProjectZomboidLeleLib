@@ -325,8 +325,9 @@ end
 
 --- ------------------------------------------------------------
 
-local function characterLibAllSkills()
+local function characterLibAllPerks()
     local CharacterObj01 = CharacterObj:new()
+    character = getPlayer()
     CharacterObj01 = characterLib.getAllPerks(character)
 
     local flag = false
@@ -336,6 +337,12 @@ local function characterLibAllSkills()
 
     checkTest(true,
             true, "All Skills")
+
+    local profession = CharacterObj01:getProfession()
+    local profession_ = characterPz.getProfession_PZ(character)
+
+    checkTest(profession,
+            profession_, "All Skills - Profession")
 end
 
 local function characterLibPerksBoost()
@@ -389,12 +396,22 @@ end
 
 -- TODO finire
 local function characterLibMultiplier()
-    local boostLevel = 1
+    local multiplier = 1.0
 
-    characterPz.setPerkBoost_PZ(character, Perks.Cooking, boostLevel)
+    characterPz.addXpMultiplier_PZ(character, Perks.Cooking, multiplier,
+            characterPz.EnumNumbers.ONE, characterPz.EnumNumbers.ONE)
 
-    checkTest(characterPz.getPerkBoost_PZ(character, Perks.Cooking),
-            boostLevel, "PerkBoost")
+    local CharacterObj01 = CharacterObj:new()
+    CharacterObj01 = characterLib.getMultiplier(character)
+
+    local dbg1 = character
+    local dbg
+    for _, v in pairs(CharacterObj01:getPerkDetails()) do
+        if v:getPerk() == Perks.Cooking then
+            checkTest(v:getMultiplier(),
+                    multiplier, "Multiplier")
+        end
+    end
 
     characterPz.removePerkBoost(character, Perks.Cooking)
 end
@@ -407,7 +424,7 @@ end
 ---@param character IsoGameCharacter
 function key36(key)
     if key == 36 then
-        print("Key = j > addTrait \n")
+        print("Key = j > multiplier \n")
 
     end
 end
@@ -444,20 +461,20 @@ end
 
 local function characterLibTest()
     print("---------- CharacterLib ----------\n")
-    traitsPerk()
-    perkProfession()
+    --traitsPerk()
+    --perkProfession()
     ---- -- currentSkill()
-    characterLibAllSkills()
-    characterLibPerksBoost()
-    characterLibKnownRecipes()
-    characterLibMultiplier()
+    characterLibAllPerks()
+    --characterLibPerksBoost()
+    --characterLibKnownRecipes()
+    --characterLibMultiplier()
     print("---------- finish CharacterLib test ----------\n")
 end
 
 local function onCustomUIKeyPressed(key)
     key36(key)
     key37(key)
-    baseTest()
+    -- baseTest()
     characterLibTest()
 
 end
