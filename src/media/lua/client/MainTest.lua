@@ -4,7 +4,7 @@
 --- DateTime: 07/05/23 10:44
 ---
 
-require("lib/DbgLeleLib")
+local dbgLeleLib = require("lib/DbgLeleLib")
 local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZ = require("lib/PerkFactoryPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
@@ -35,10 +35,10 @@ local function checkTest(value1, value2, nameTest)
 end
 
 local function baseProfession()
-    characterPz.setProfession_PZ(character, EnumProfession.BURGER_FLIPPER)
+    characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.BURGER_FLIPPER)
     local profession = characterPz.getProfession_PZ(character)
 
-    checkTest(profession ,EnumProfession.BURGER_FLIPPER,
+    checkTest(profession , dbgLeleLib.EnumProfession.BURGER_FLIPPER,
             "Profession" )
 
     characterPz.removeProfession(character)
@@ -95,6 +95,7 @@ local function basePerkBoost()
     characterPz.removePerkBoost(character, Perks.Cooking)
 end
 
+-- todo non funziona correttamente, se preso singolarmente al il test viene fallito
 local function baseMultiplier()
     local multiplier = 1.1
     characterPz.addXpMultiplier_PZ(character, Perks.Woodwork, multiplier,
@@ -146,9 +147,9 @@ local function baseTrait()
 
         ---@type KahluaTable
         local traitKahluaTable = transformIntoKahluaTable(trait)
-        for i, v in pairs(traitKahluaTable) do
-            if tostring(i) == "Woodwork" then
-                checkTest(tostring(i), "Woodwork", "Add Trait")
+        for i2, _ in pairs(traitKahluaTable) do
+            if tostring(i2) == "Woodwork" then
+                checkTest(tostring(i2), "Woodwork", "Add Trait")
             end
         end
     end
@@ -170,7 +171,7 @@ local function baseTrait()
 
         ---@type KahluaTable
         local traitKahluaTable = transformIntoKahluaTable(trait)
-        for i, v in pairs(traitKahluaTable) do
+        for _, _ in pairs(traitKahluaTable) do
             flag = true
         end
     end
@@ -178,7 +179,7 @@ local function baseTrait()
     checkTest(flag, false, "Remove All Trait")
 end
 
-local function baseConvertLevelToXp(perk, level)
+local function baseConvertLevelToXp()
     local xp = perkFactoryPZ.convertLevelToXp(Perks.Cooking, 1)
 
    checkTest(xp, 75, "ConvertLevelToXp")
@@ -186,7 +187,6 @@ end
 
 local function basePerkName()
     local perk = perkFactoryPZ.getPerk_PZ(Perks.Cooking)
-    local perkByName = perkFactoryPZ.getPerkByName_PZ("chef")
     checkTest(perk, perk, "Perk Name")
 end
 
@@ -252,7 +252,7 @@ local function baseModData()
 
     modDataX.saveModata(characterModData, values)
 
-    local results = {}
+    results = {}
     results = modDataX.readModata(characterModData)
 
     if type(results) == "table" then
@@ -272,7 +272,7 @@ end
 --- ------------------------------------------------
 
 local function traitsPerk()
-    characterPz.setProfession_PZ(character, EnumProfession.CHEF)
+    characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.CHEF)
 
     local trait_ = "Feeble"
     characterPz.setTraitsPerk_PZ(character, trait_)
@@ -290,7 +290,7 @@ local function traitsPerk()
     checkTest(true,
             true, "Get PerkDetails")
 
-    local flag = false
+    flag = false
     if CharacterObj01:getTraits() then
         flag = true
     end
@@ -303,7 +303,7 @@ local function traitsPerk()
 end
 
 local function perkProfession()
-    characterPz.setProfession_PZ(character, EnumProfession.CHEF)
+    characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.CHEF)
 
     local CharacterObj01 = CharacterObj:new()
 
@@ -383,7 +383,7 @@ local function characterLibKnownRecipes()
 
     ---@type boolean
     local flag = false
-    for i, v in pairs(CharacterObj01:getRecipes()) do
+    for _, v in pairs(CharacterObj01:getRecipes()) do
         if v == recipe then
             flag = true
         end
@@ -394,18 +394,18 @@ local function characterLibKnownRecipes()
 
 end
 
--- TODO finire
+-- TODO non fuziona corretamente
 local function characterLibMultiplier()
     local multiplier = 1.0
 
     characterPz.addXpMultiplier_PZ(character, Perks.Cooking, multiplier,
             characterPz.EnumNumbers.ONE, characterPz.EnumNumbers.ONE)
 
+    character = getPlayer()
+
     local CharacterObj01 = CharacterObj:new()
     CharacterObj01 = characterLib.getMultiplier(character)
 
-    local dbg1 = character
-    local dbg
     for _, v in pairs(CharacterObj01:getPerkDetails()) do
         if v:getPerk() == Perks.Cooking then
             checkTest(v:getMultiplier(),
@@ -413,24 +413,19 @@ local function characterLibMultiplier()
         end
     end
 
-    characterPz.removePerkBoost(character, Perks.Cooking)
+    characterPz.removeMultiplier(character, Perks.Cooking)
 end
 --- ------------------------------------------------------------
 
-
-
 --- ------------------------------------
-
----@param character IsoGameCharacter
-function key36(key)
+local function key36(key)
     if key == 36 then
         print("Key = j > multiplier \n")
 
     end
 end
 
----@param character IsoGameCharacter
-function key37(key)
+local function key37(key)
     if key == 37 then -- <<<< k
         print("Key = k > kill \n")
         character:die()
@@ -461,22 +456,22 @@ end
 
 local function characterLibTest()
     print("---------- CharacterLib ----------\n")
-    --traitsPerk()
-    --perkProfession()
+    traitsPerk()
+    perkProfession()
     ---- -- currentSkill()
     characterLibAllPerks()
-    --characterLibPerksBoost()
-    --characterLibKnownRecipes()
-    --characterLibMultiplier()
+    characterLibPerksBoost()
+    characterLibKnownRecipes()
+    characterLibMultiplier()
     print("---------- finish CharacterLib test ----------\n")
 end
 
 local function onCustomUIKeyPressed(key)
+
     key36(key)
     key37(key)
-    -- baseTest()
+    baseTest()
     characterLibTest()
-
 end
 
 Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)

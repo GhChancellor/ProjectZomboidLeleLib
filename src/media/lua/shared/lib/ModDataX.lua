@@ -4,11 +4,13 @@
 --- DateTime: 10/05/23 15:11
 ---
 
+---@class ModDataX
+
 local modDataX = {}
 
 ---Save ModData
 ---@param modData EnumModData
----@param value string or table
+---@param values string or table
 function modDataX.saveModata(modData, values)
     if not modData or not values then
         return nil
@@ -45,7 +47,7 @@ function modDataX.readModata(modData)
     else
         local conversionTotable ={}
 
-        for i, v in pairs(lines) do
+        for _, v in pairs(lines) do
             table.insert(conversionTotable, v)
         end
         return conversionTotable

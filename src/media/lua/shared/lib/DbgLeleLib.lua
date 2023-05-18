@@ -6,7 +6,11 @@
 
 ---@class DbgLeleLib
 
-EnumProfession = {
+local DbgLeleLib = {}
+
+local perkFactoryPZ = require("lib/PerkFactoryPZ")
+
+DbgLeleLib.EnumProfession = {
     UNEMPLOYED = "",
     BURGER_FLIPPER = "burgerflipper",
     BURGLAR = "burglar",
@@ -31,45 +35,61 @@ EnumProfession = {
     VETERAN = "veteran"
 }
 
---- Not tested, check the names
-EnumPerk = {
-    UNEMPLOYED = "",
-    NONE = "none",
-    AIMING = "Aiming",
-    AXE = "Axe",
-    BLUNT = "Blunt",
-    COOKING = "Cooking",
-    DOCTOR = "Doctor",
-    ELECTRICITY = "Electricity",
-    FARMING = "Farming",
-    FISHING = "Fishing",
-    FITNESS = "Fitness",
-    LIGHTFOOT = "Lightfoot",
-    LONG_BLADE = "LongBlade",
-    MAINTENANCE = "Maintenance",
-    MECHANICS = "Mechanics",
-    METAL_WELDING = "MetalWelding",
-    NIMBLE = "Nimble",
-    PLANT_SCAVENGING = "PlantScavenging",
-    RELOADING = "Reloading",
-    SMALL_BLUNT = "SmallBlunt",
-    SMALL_BLADE = "SmallBlade",
-    SNEAK = "Sneak",
-    SPEAR = "Spear",
-    SPRINTING = "Sprinting",
-    STRENGTH = "Strength",
-    TAILORING = "Tailoring",
-    TRAPPING = "Trapping",
-    WOODWORK = "Woodwork"
+--- Get Perk from name
+---@return PerkFactory.Perk perk
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
+DbgLeleLib.EnumPerk = {
+    --local myPerk = Perks.Blacksmith
+    --print(myPerk:getType())
+    --print(myPerk:getId())
+    --print(myPerk:getName())
+
+    None = perkFactoryPZ.getPerkByName_PZ("None"),
+    Agility = perkFactoryPZ.getPerkByName_PZ("Agility"),
+    Aiming = perkFactoryPZ.getPerkByName_PZ("Aiming"),
+    Axe = perkFactoryPZ.getPerkByName_PZ("Axe"),
+    -- Blacksmith = perkFactoryPZ.getPerkByName_PZ("Blacksmith"),  -- ???
+    Blunt = perkFactoryPZ.getPerkByName_PZ("Blunt"),
+    Combat = perkFactoryPZ.getPerkByName_PZ("Combat"),
+    Cooking = perkFactoryPZ.getPerkByName_PZ("Cooking"),
+    Crafting = perkFactoryPZ.getPerkByName_PZ("Crafting"),
+    Doctor = perkFactoryPZ.getPerkByName_PZ("Doctor"),
+    Electricity = perkFactoryPZ.getPerkByName_PZ("Electricity"),
+    Farming = perkFactoryPZ.getPerkByName_PZ("Farming"),
+    Firearm = perkFactoryPZ.getPerkByName_PZ("Firearm"),
+    Fishing = perkFactoryPZ.getPerkByName_PZ("Fishing"),
+    Fitness = perkFactoryPZ.getPerkByName_PZ("Fitness"),
+    Lightfoot = perkFactoryPZ.getPerkByName_PZ("Lightfoot"),
+    LongBlade = perkFactoryPZ.getPerkByName_PZ("Long Blade"), -- LongBlade
+    Maintenance = perkFactoryPZ.getPerkByName_PZ("Maintenance"),
+    -- MAX = perkFactoryPZ.getPerkByName_PZ("MAX"), -- ???
+    Mechanics = perkFactoryPZ.getPerkByName_PZ("Mechanics"),
+    -- Melee = perkFactoryPZ.getPerkByName_PZ("Melee"), -- ???
+    -- Melting = perkFactoryPZ.getPerkByName_PZ("Melting"), -- ???
+    MetalWelding = perkFactoryPZ.getPerkByName_PZ("Metalworking"), -- MetalWelding
+    Nimble = perkFactoryPZ.getPerkByName_PZ("Nimble"),
+    Passiv = perkFactoryPZ.getPerkByName_PZ("Passive"), -- Passiv
+    PlantScavenging = perkFactoryPZ.getPerkByName_PZ("Foraging"), -- PlantScavenging
+    Reloading = perkFactoryPZ.getPerkByName_PZ("Reloading"),
+    SmallBlade = perkFactoryPZ.getPerkByName_PZ("Short Blade"), -- SmallBlade
+    SmallBlunt = perkFactoryPZ.getPerkByName_PZ("Short Blunt"), -- SmallBlunt
+    Sneak = perkFactoryPZ.getPerkByName_PZ("Sneaking"), -- Sneak
+    Spear = perkFactoryPZ.getPerkByName_PZ("Spear"),
+    Sprinting = perkFactoryPZ.getPerkByName_PZ("Sprinting"),
+    Strength = perkFactoryPZ.getPerkByName_PZ("Strength"),
+    Survivalist = perkFactoryPZ.getPerkByName_PZ("Survivalist"),
+    Tailoring = perkFactoryPZ.getPerkByName_PZ("Tailoring"),
+    Trapping = perkFactoryPZ.getPerkByName_PZ("Trapping"),
+    Woodwork = perkFactoryPZ.getPerkByName_PZ("Carpentry"),  -- Woodwork
 }
 
 ---display
 ---@param displayName
----@param index
+---@param i
 ---@param perk
 ---@param level
 ---@param xp
-function display(displayName, i, perk, level, xp)
+function DbgLeleLib.display(displayName, i, perk, level, xp)
     print("DGB\n")
     print(displayName .. " " ..
             tostring(i) .. " >> " ..
@@ -81,12 +101,12 @@ end
 ---@param displayName string
 ---@param perk
 ---@param level
-function displayPerk(displayName, i, perk, level, xp)
+function DbgLeleLib.displayPerk(displayName, i, perk, level, xp)
     local dbg1 = perk
     local dbg2 = level
     local dbg3 = xp
     print("--------------------------------")
-    display(displayName, i, perk, level, xp)
+    DbgLeleLib.display(displayName, i, perk, level, xp)
     print("--------------------------------")
     local dbg
 end
@@ -95,7 +115,7 @@ end
 ---@param perk_ PerkFactory.Perk
 ---@param perk PerkFactory.Perk
 ---@param level int
-function getCheckPerk(displayName, perk_, perk, level )
+function DbgLeleLib.CheckPerk(displayName, perk_, perk, level )
     -- Perks.Maintenance
     local dbg1
     local dbg2
@@ -106,7 +126,7 @@ function getCheckPerk(displayName, perk_, perk, level )
         dbg1 = perk_
         dbg2 = level
         print("--------------------------------")
-        display(displayName, nil, perk, level, nil)
+        DbgLeleLib.display(displayName, nil, perk, level, nil)
         print("--------------------------------")
 
         local dbg
@@ -116,17 +136,17 @@ function getCheckPerk(displayName, perk_, perk, level )
 end
 
 ---@param displayName string
----@param table
-function displayListPerks(displayName, perks_list)
+---@param perks_list
+function DbgLeleLib.displayListPerks(displayName, perks_list)
     print("--------------------------------")
     for i, v in pairs(perks_list) do
-        display(displayName, i, v.perk, v.level, nil)
+        DbgLeleLib.display(displayName, i, v.perk, v.level, nil)
         -- DBG_GetCheckPerk("DBG_GetCheckPerk", v.perk_, v.perk, _ )
     end
     print("--------------------------------")
 end
 
-
+return DbgLeleLib
 
 
 
