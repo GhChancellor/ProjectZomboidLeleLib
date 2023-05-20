@@ -90,13 +90,25 @@ DbgLeleLib.EnumPerk = {
 ---@param level
 ---@param xp
 function DbgLeleLib.display(displayName, i, perk, level, xp)
-    print("DGB\n")
     print(displayName .. " " ..
-            tostring(i) .. " >> " ..
-            type(perk) .. " " .. tostring(perk) .. " - " ..
-            type(level) .. " " .. tostring(level) .. " - " ..
-            type(xp) .. " " .. tostring(xp) )
+        tostring(i) .. " >> " .. tostring(perk) .. " - " ..
+        tostring(level) .. " - " .. tostring(xp) )
 end
+
+---display
+---@param displayName
+---@param i
+---@param perk
+---@param level
+---@param xp
+function DbgLeleLib.displayAdvanced(displayName, i, perk, level, xp)
+    print(displayName .. " " ..
+        tostring(i) .. " >> " ..
+        type(perk) .. " " .. tostring(perk) .. " - " ..
+        type(level) .. " " .. tostring(level) .. " - " ..
+        type(xp) .. " " .. tostring(xp) )
+end
+
 
 ---@param displayName string
 ---@param perk
@@ -115,7 +127,7 @@ end
 ---@param perk_ PerkFactory.Perk
 ---@param perk PerkFactory.Perk
 ---@param level int
-function DbgLeleLib.CheckPerk(displayName, perk_, perk, level )
+function DbgLeleLib.checkPerk(displayName, perk_, perk, level )
     -- Perks.Maintenance
     local dbg1
     local dbg2
@@ -135,12 +147,24 @@ function DbgLeleLib.CheckPerk(displayName, perk_, perk, level )
     local dbg
 end
 
+function DbgLeleLib.displayCharacterObj(displayName, CharacterObj )
+    print("--------------------------------")
+    for i, v in pairs(CharacterObj) do
+        DbgLeleLib.display(displayName, i,
+                v:getPerk(), v:getLevel(), v:getXp())
+        --DbgLeleLib.displayAdvanced(displayName, i,
+        --        v:getPerk(), v:getLevel(), v:getXp())
+    end
+    print("--------------------------------")
+end
+
 ---@param displayName string
 ---@param perks_list
 function DbgLeleLib.displayListPerks(displayName, perks_list)
     print("--------------------------------")
     for i, v in pairs(perks_list) do
         DbgLeleLib.display(displayName, i, v.perk, v.level, nil)
+        -- DbgLeleLib.displayAdvanced(displayName, i, v.perk, v.level, nil)
         -- DBG_GetCheckPerk("DBG_GetCheckPerk", v.perk_, v.perk, _ )
     end
     print("--------------------------------")

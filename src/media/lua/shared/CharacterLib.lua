@@ -60,6 +60,12 @@ function CharacterLib.getPerkProfession(character)
     ---@type SurvivorDesc
     local profession = characterPz.getProfession_PZ(character)
 
+    if profession == "" then
+        local unemployed = ""
+        CharacterObj01:setProfession(unemployed)
+        return CharacterObj01
+    end
+
     ---@type ProfessionFactory
     local professionMap = ProfessionFactory.getProfession(profession):getXPBoostMap()
 
@@ -198,6 +204,81 @@ function CharacterLib.getKnownRecipes(character)
     end
 
     return CharacterObj01
+end
+
+---Encode Perk Details convert the CharaterObj into a table. The ModData only accepts a table
+---@param characterObj CharacterObj
+---@return table
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+function CharacterLib.encodePerkDetails(characterObj)
+    if not characterObj then
+        return nil
+    end
+
+    local lines = {}
+
+    for _, v in pairs(characterObj:getPerkDetails()) do
+        local value = ( v.perk:getName() .. "-" ..
+                tostring(v:getLevel())  .. "-" ..
+                tostring(v:getXp()))
+
+        table.insert(lines, value)
+    end
+
+    return lines
+end
+
+---Decode Perk Details convert a table into CharacterObj
+---@param characterPerkDetails table
+---@return CharacterObj getPerkDetails()
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+function CharacterLib.decodePerkDetails(characterPerkDetails)
+    if not characterPerkDetails then
+        return nil
+    end
+
+    local CharacterObj01 = CharacterObj:new()
+
+    local lines = {}
+
+    for _, v in pairs(characterPerkDetails) do
+        for s in v:gmatch("[^\r-]+") do
+            table.insert(lines, s)
+        end
+
+        -- perk, level, xp
+        CharacterObj01:addPerkDetails(perkFactoryPZ.getPerkByName_PZ(lines[1]),
+                tonumber(lines[2]),
+                tonumber(lines[3]) + 0.0)
+
+        lines = {}
+    end
+
+    return CharacterObj01
+end
+
+--- TODO uncompleted
+function CharacterLib.resetCharacter(character)
+    if not character then
+        return nil
+    end
+
+    character = CharacterLib.charaterUpdate()
+
+    local CharacterObj01 = CharacterObj:new()
+    CharacterObj01 = CharacterLib.getAllPerks(character)
+
+    characterPz.removeProfession(character)
+
+    -- remove perk, level, Xp
+    for i, v in pairs(CharacterObj01:getPerkDetails()) do
+        characterPz.removePerkLevel(character, v:getPerk())
+    end
+end
+
+---Update all the characteristics of the character
+function CharacterLib.charaterUpdate()
+    return getPlayer()
 end
 
 return CharacterLib

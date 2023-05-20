@@ -9,6 +9,7 @@ local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZ = require("lib/PerkFactoryPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
 local modDataX = require("lib/ModDataX")
+local enumX = require("lib/EnumModData")
 local characterLib = require("CharacterLib")
 
 local test_ = "Test - "
@@ -17,6 +18,10 @@ local ok_ = " >>>>>>>>>>>>>> Ok"
 
 ---@type IsoGameCharacter
 local character = getPlayer()
+
+local function charaterUpdate()
+    character = characterLib.charaterUpdate()
+end
 
 local function fail(value)
     print(test_ .. value .. fail_)
@@ -35,6 +40,7 @@ local function checkTest(value1, value2, nameTest)
 end
 
 local function baseProfession()
+    charaterUpdate()
     characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.BURGER_FLIPPER)
     local profession = characterPz.getProfession_PZ(character)
 
@@ -49,7 +55,7 @@ local function baseKnownRecipes()
 
     characterPz.addKnownRecipe(character, recipe)
 
-    character = getPlayer()
+    charaterUpdate()
 
     ------- -------------------------------------------------------------
     local knownRecipes = characterPz.getKnownRecipes_PZ(character)
@@ -82,6 +88,7 @@ local function baseZombieKills()
     checkTest(characterPz.getZombieKills_PZ(character), 15,
            "ZombieKills" )
 
+    characterPz.setZombieKills_PZ(character, 0)
 end
 
 local function basePerkBoost()
@@ -101,7 +108,7 @@ local function baseMultiplier()
     characterPz.addXpMultiplier_PZ(character, Perks.Woodwork, multiplier,
             1, 1)
 
-    character = getPlayer()
+    charaterUpdate()
 
     local value = characterPz.getMultiplier_PZ(character, Perks.Woodwork)
 
@@ -231,6 +238,42 @@ local function baseModData()
     local value = 10
     local values = {1 ,2 ,3 ,4 ,5}
 
+    modDataX.saveModata(enumX.ModData.TEST_ENUM, value)
+
+    local results = {}
+    results = modDataX.readModata(enumX.ModData.TEST_ENUM)
+    local result = results[1]
+
+    checkTest(result, value, "ModData single value")
+
+    if modDataX.isExists(enumX.ModData.TEST_ENUM) then
+        checkTest(true, true, "ModData isExists")
+    end
+
+    if modDataX.remove(enumX.ModData.TEST_ENUM) ~= false then
+        modDataX.remove(enumX.ModData.TEST_ENUM)
+        checkTest(true, true, "ModData Remove")
+    end
+
+    modDataX.saveModata(enumX.ModData.TEST_ENUM, values)
+
+    results = {}
+    results = modDataX.readModata(enumX.ModData.TEST_ENUM)
+
+    if type(results) == "table" then
+        checkTest(true, true, "ModData multi value")
+    end
+
+    if modDataX.isExists(enumX.ModData.TEST_ENUM) then
+        checkTest(true, true, "ModData isExists")
+    end
+
+    if modDataX.remove(enumX.ModData.TEST_ENUM) ~= false then
+        modDataX.remove(enumX.ModData.TEST_ENUM)
+        checkTest(true, true, "ModData Remove")
+    end
+
+    --[[
     local characterModData = "characterModData"
 
     modDataX.saveModata(characterModData, value)
@@ -267,6 +310,7 @@ local function baseModData()
         modDataX.remove(characterModData)
         checkTest(true, true, "ModData Remove")
     end
+    ]]
 end
 
 --- ------------------------------------------------
@@ -277,7 +321,7 @@ local function traitsPerk()
     local trait_ = "Feeble"
     characterPz.setTraitsPerk_PZ(character, trait_)
 
-    character = getPlayer()
+    charaterUpdate()
 
     local CharacterObj01 = CharacterObj:new()
     CharacterObj01 = characterLib.getTraitsPerk(character)
@@ -307,7 +351,7 @@ local function perkProfession()
 
     local CharacterObj01 = CharacterObj:new()
 
-    character = getPlayer()
+    charaterUpdate()
 
     CharacterObj01 = characterLib.getPerkProfession(character)
 
@@ -327,7 +371,7 @@ end
 
 local function characterLibAllPerks()
     local CharacterObj01 = CharacterObj:new()
-    character = getPlayer()
+    charaterUpdate()
     CharacterObj01 = characterLib.getAllPerks(character)
 
     local flag = false
@@ -349,7 +393,7 @@ local function characterLibPerksBoost()
     local boost = 1
     characterPz.setPerkBoost_PZ(Perks.Cooking, boost)
 
-    character = getPlayer()
+    charaterUpdate()
 
     local CharacterObj01 = CharacterObj:new()
 
@@ -376,7 +420,7 @@ local function characterLibKnownRecipes()
 
     characterPz.addKnownRecipe(character, recipe)
 
-    character = getPlayer()
+    charaterUpdate()
 
     local CharacterObj01 = CharacterObj:new()
     CharacterObj01 = characterLib.getKnownRecipes(character)
@@ -394,14 +438,13 @@ local function characterLibKnownRecipes()
 
 end
 
--- TODO non fuziona corretamente
 local function characterLibMultiplier()
     local multiplier = 1.0
 
     characterPz.addXpMultiplier_PZ(character, Perks.Cooking, multiplier,
             characterPz.EnumNumbers.ONE, characterPz.EnumNumbers.ONE)
 
-    character = getPlayer()
+    charaterUpdate()
 
     local CharacterObj01 = CharacterObj:new()
     CharacterObj01 = characterLib.getMultiplier(character)
@@ -415,12 +458,59 @@ local function characterLibMultiplier()
 
     characterPz.removeMultiplier(character, Perks.Cooking)
 end
+
+local function characterLibDe_EncodePerkDetails(character)
+    characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.CARPENTER)
+    characterPz.setPerkLevel(character, dbgLeleLib.EnumPerk.Woodwork, 100.0)
+    charaterUpdate()
+
+    local CharacterObj01 = CharacterObj:new()
+    local CharacterObj02 = CharacterObj:new()
+
+    local perk = perkFactoryPZ.getPerk_PZ(dbgLeleLib.EnumPerk.Woodwork)
+    local level = characterPz.getPerkLevel_PZ(character, perk)
+    local xp = characterPz.getXp(character, perk)
+
+    local perk2
+    local level2
+    local xp2
+
+    CharacterObj01:addPerkDetails(perk, level, xp)
+
+    local lines = {}
+
+    for _, v in pairs(CharacterObj01:getPerkDetails()) do
+        lines = characterLib.encodePerkDetails(CharacterObj01)
+    end
+
+    CharacterObj02 = characterLib.decodePerkDetails(lines)
+
+    for _, v in pairs(CharacterObj01:getPerkDetails()) do
+        perk = v:getPerk()
+        level = v:getLevel()
+        xp = v:getXp()
+    end
+
+    for _, v in pairs(CharacterObj02:getPerkDetails()) do
+        perk2 = v:getPerk()
+        level2 = v:getLevel()
+        xp2 = v:getXp()
+    end
+
+    if perk == perk2 and level == level2 and xp == xp2 then
+        checkTest(true, true, "De_EncodePerkDetails")
+    else
+        checkTest(false, true, "De_EncodePerkDetails")
+    end
+
+    lines = {}
+end
 --- ------------------------------------------------------------
 
 --- ------------------------------------
 local function key36(key)
     if key == 36 then
-        print("Key = j > multiplier \n")
+        print("Key = j > EncodePerkDetails \n")
 
     end
 end
@@ -463,6 +553,13 @@ local function characterLibTest()
     characterLibPerksBoost()
     characterLibKnownRecipes()
     characterLibMultiplier()
+    characterLibDe_EncodePerkDetails(character)
+
+    --- TODO controllare cooking e il multipier rimane sempre un -1
+
+    -- uncompleted
+    characterLib.resetCharacter(character)
+
     print("---------- finish CharacterLib test ----------\n")
 end
 
