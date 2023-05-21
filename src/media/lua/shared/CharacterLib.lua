@@ -60,12 +60,6 @@ function CharacterLib.getPerkProfession(character)
     ---@type SurvivorDesc
     local profession = characterPz.getProfession_PZ(character)
 
-    if profession == "" then
-        local unemployed = ""
-        CharacterObj01:setProfession(unemployed)
-        return CharacterObj01
-    end
-
     ---@type ProfessionFactory
     local professionMap = ProfessionFactory.getProfession(profession):getXPBoostMap()
 

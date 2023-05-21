@@ -9,9 +9,9 @@
 local modDataX = {}
 
 ---Save ModData
----@param modData EnumModData
+---@param nameFile String
 ---@param values string or table
-function modDataX.saveModata(modData, values)
+function modDataX.saveModData(modData, values)
     if not modData or not values then
         return nil
     end
@@ -33,8 +33,9 @@ function modDataX.saveModata(modData, values)
 end
 
 ---Read ModData
+---@param nameFile String
 ---@return table
-function modDataX.readModata(modData)
+function modDataX.readModData(modData)
     if not modData then
         return nil
     end
@@ -54,65 +55,25 @@ function modDataX.readModata(modData)
     end
 end
 
--- Todo Unify the moddata using two methods: write and read
----Read Single Value Into Mod Data
----@param EnumModData
---- - ModData : zombie.world.moddata.ModData
-function modDataX.readSingleValue(modData)
+---Is modData Exists
+---@param nameFile String
+--- - ModData : zombie.world.moddata.ModDa
+function modDataX.isExists(modData)
     if not modData then
         return nil
     end
 
-    local lines = {}
-
-    lines = ModData.get(modData)
-    return lines[1]
-end
-
--- Todo Unify the moddata using two methods: write and read
----Insert Multiple Value Into Mod Data
----@param modData EnumModData
----@param values table
---- - ModData : zombie.world.moddata.ModData
-function modDataX.insertMultipleValue(modData, values)
-    if not modData or not values then
-        return nil
-    end
-
-    local lines = {}
-
-    for i, v in pairs(values) do
-        lines[i] = v
-        ModData.add(modData, lines)
-    end
-end
-
--- Todo Unify the moddata using two methods: write and read
----Insert Single Value Into Mod Data
----@param EnumModData
----@param value
---- - ModData : zombie.world.moddata.ModData
-function modDataX.insertSingleValue(modData, value)
-    if not modData or not value then
-        return nil
-    end
-
-    ModData.remove(modData)
-
-    local lines = {}
-    table.insert(lines, value)
-
-    ModData.add(modData, lines)
-end
-
----Is Exist
----@param modData EnumModData
---- - ModData : zombie.world.moddata.ModDa
-function modDataX.isExists(modData)
     return ModData.exists(modData)
 end
 
+--- Remove modData
+---@param nameFile String
+--- - ModData : zombie.world.moddata.ModDa
 function modDataX.remove(modData)
+    if not modData then
+        return nil
+    end
+
     ModData.remove(modData)
 end
 

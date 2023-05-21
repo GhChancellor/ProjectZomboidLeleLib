@@ -98,8 +98,8 @@ end
 ---@return String
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function CharacterPz.removeProfession(character)
-    local unployed = ""
-    CharacterPz.setProfession_PZ(character, unployed)
+    local unemployed = "unemployed"
+    CharacterPz.setProfession_PZ(character, unemployed)
 end
 
 CharacterPz.EnumNumbers = {

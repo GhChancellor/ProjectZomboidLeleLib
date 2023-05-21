@@ -9,7 +9,6 @@ local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZ = require("lib/PerkFactoryPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
 local modDataX = require("lib/ModDataX")
-local enumX = require("lib/EnumModData")
 local characterLib = require("CharacterLib")
 
 local test_ = "Test - "
@@ -23,28 +22,12 @@ local function charaterUpdate()
     character = characterLib.charaterUpdate()
 end
 
-local function fail(value)
-    print(test_ .. value .. fail_)
-end
-
-local function ok(value)
-    print(test_ .. value .. ok_)
-end
-
-local function checkTest(value1, value2, nameTest)
-    if value1 == value2 then
-        ok(nameTest)
-    else
-        fail(nameTest)
-    end
-end
-
 local function baseProfession()
     charaterUpdate()
     characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.BURGER_FLIPPER)
     local profession = characterPz.getProfession_PZ(character)
 
-    checkTest(profession , dbgLeleLib.EnumProfession.BURGER_FLIPPER,
+    dbgLeleLib.checkTest(profession , dbgLeleLib.EnumProfession.BURGER_FLIPPER,
             "Profession" )
 
     characterPz.removeProfession(character)
@@ -62,16 +45,16 @@ local function baseKnownRecipes()
 
     if knownRecipes then
         for i = 0, knownRecipes:size() - 1  do
-            checkTest(knownRecipes:get(i), recipe, "KnownRecipes")
+            dbgLeleLib.checkTest(knownRecipes:get(i), recipe, "KnownRecipes")
         end
     else
-        checkTest("", "1", "knownRecipes:size()")
+        dbgLeleLib.checkTest("", "1", "knownRecipes:size()")
     end
 
     characterPz.removeKnowRecipe_PZ(character, recipe)
 
     --- -------------------------------------------------------------
-    checkTest(character:getKnownRecipes():remove(recipe),
+    dbgLeleLib.checkTest(character:getKnownRecipes():remove(recipe),
             false, "Remove KnowRecipe")
 
 end
@@ -79,13 +62,13 @@ end
 local function baseTrunkFloatTo2Decimal()
     local value = characterPz.trunkFloatTo2Decimal(1.151)
 
-    checkTest(value, 1.15, "TrunkFloatTo2Decimal")
+    dbgLeleLib.checkTest(value, 1.15, "TrunkFloatTo2Decimal")
 end
 
 local function baseZombieKills()
     characterPz.setZombieKills_PZ(character, 15)
 
-    checkTest(characterPz.getZombieKills_PZ(character), 15,
+    dbgLeleLib.checkTest(characterPz.getZombieKills_PZ(character), 15,
            "ZombieKills" )
 
     characterPz.setZombieKills_PZ(character, 0)
@@ -96,7 +79,7 @@ local function basePerkBoost()
 
     characterPz.setPerkBoost_PZ(character, Perks.Cooking, boostLevel)
 
-    checkTest(characterPz.getPerkBoost_PZ(character, Perks.Cooking),
+    dbgLeleLib.checkTest(characterPz.getPerkBoost_PZ(character, Perks.Cooking),
             boostLevel, "PerkBoost")
 
     characterPz.removePerkBoost(character, Perks.Cooking)
@@ -112,21 +95,21 @@ local function baseMultiplier()
 
     local value = characterPz.getMultiplier_PZ(character, Perks.Woodwork)
 
-    checkTest(characterPz.trunkFloatTo2Decimal(value),
+    dbgLeleLib.checkTest(characterPz.trunkFloatTo2Decimal(value),
             multiplier, "Multiplier" )
 
     characterPz.removeMultiplier(character, Perks.Woodwork)
 end
 
 local function baseEnumNumbers()
-    checkTest(characterPz.EnumNumbers.EIGHT, 8, "EnumNumbers")
+    dbgLeleLib.checkTest(characterPz.EnumNumbers.EIGHT, 8, "EnumNumbers")
 end
 
 local function baseXp()
     characterPz.addXP_PZ(character, Perks.Cooking, 75)
     local xp_ = characterPz.getXp(character, Perks.Cooking)
 
-    checkTest(xp_, 75, "Xp")
+    dbgLeleLib.checkTest(xp_, 75, "Xp")
 
     --- -------------------------------------------------
     characterPz.removePerkLevel(character, Perks.Cooking)
@@ -137,7 +120,7 @@ local function basePerkLevel()
 
     local level = characterPz.getPerkLevel_PZ(character, Perks.Cooking)
 
-    checkTest(level, 1, "PerkLevel")
+    dbgLeleLib.checkTest(level, 1, "PerkLevel")
     --- -------------------------------------------------
     characterPz.removePerkLevel(character, Perks.Cooking)
 end
@@ -156,7 +139,7 @@ local function baseTrait()
         local traitKahluaTable = transformIntoKahluaTable(trait)
         for i2, _ in pairs(traitKahluaTable) do
             if tostring(i2) == "Woodwork" then
-                checkTest(tostring(i2), "Woodwork", "Add Trait")
+                dbgLeleLib.checkTest(tostring(i2), "Woodwork", "Add Trait")
             end
         end
     end
@@ -165,7 +148,7 @@ local function baseTrait()
     characterPz.removeTrait_PZ(character, "Woodwork")
 
     local remove = character:getTraits():remove("Woodwork")
-    checkTest(remove, false, "Remove trait")
+    dbgLeleLib.checkTest(remove, false, "Remove trait")
 
     --- ------------------------------------------------
 
@@ -183,24 +166,24 @@ local function baseTrait()
         end
     end
 
-    checkTest(flag, false, "Remove All Trait")
+    dbgLeleLib.checkTest(flag, false, "Remove All Trait")
 end
 
 local function baseConvertLevelToXp()
     local xp = perkFactoryPZ.convertLevelToXp(Perks.Cooking, 1)
 
-   checkTest(xp, 75, "ConvertLevelToXp")
+   dbgLeleLib.checkTest(xp, 75, "ConvertLevelToXp")
 end
 
 local function basePerkName()
     local perk = perkFactoryPZ.getPerk_PZ(Perks.Cooking)
-    checkTest(perk, perk, "Perk Name")
+    dbgLeleLib.checkTest(perk, perk, "Perk Name")
 end
 
 local function baseParent()
     local parent_ = "Combat"
     local parent = perkFactoryPZ.getParent_PZ(Perks.Maintenance)
-    checkTest(parent_, parent, "Parent" )
+    dbgLeleLib.checkTest(parent_, parent, "Parent" )
 end
 
 local function baseHoursSurvived()
@@ -209,7 +192,7 @@ local function baseHoursSurvived()
     isoPlayerPZ.setHoursSurvived_PZ(hoursSurvived)
 
     hoursSurvived_ = isoPlayerPZ.getHoursSurvived_PZ()
-    checkTest(hoursSurvived_, hoursSurvived, "Hours Survived" )
+    dbgLeleLib.checkTest(hoursSurvived_, hoursSurvived, "Hours Survived" )
 end
 
 local function baseCalories()
@@ -222,7 +205,7 @@ local function baseCalories()
 
     trunckedCalories = characterPz.trunkFloatTo2Decimal(calories_)
 
-    checkTest(trunckedCalories, calories, "Calories" )
+    dbgLeleLib.checkTest(trunckedCalories, calories, "Calories" )
 end
 
 local function baseWeight()
@@ -231,86 +214,48 @@ local function baseWeight()
     isoPlayerPZ.setWeight_PZ(weight)
 
     weight_ = isoPlayerPZ.getWeight_PZ()
-    checkTest(weight_, weight, "Weight" )
+    dbgLeleLib.checkTest(weight_, weight, "Weight" )
 end
 
 local function baseModData()
     local value = 10
-    local values = {1 ,2 ,3 ,4 ,5}
+    local values = {1, 2, 3, 4, 5}
 
-    modDataX.saveModata(enumX.ModData.TEST_ENUM, value)
-
-    local results = {}
-    results = modDataX.readModata(enumX.ModData.TEST_ENUM)
-    local result = results[1]
-
-    checkTest(result, value, "ModData single value")
-
-    if modDataX.isExists(enumX.ModData.TEST_ENUM) then
-        checkTest(true, true, "ModData isExists")
-    end
-
-    if modDataX.remove(enumX.ModData.TEST_ENUM) ~= false then
-        modDataX.remove(enumX.ModData.TEST_ENUM)
-        checkTest(true, true, "ModData Remove")
-    end
-
-    modDataX.saveModata(enumX.ModData.TEST_ENUM, values)
-
-    results = {}
-    results = modDataX.readModata(enumX.ModData.TEST_ENUM)
-
-    if type(results) == "table" then
-        checkTest(true, true, "ModData multi value")
-    end
-
-    if modDataX.isExists(enumX.ModData.TEST_ENUM) then
-        checkTest(true, true, "ModData isExists")
-    end
-
-    if modDataX.remove(enumX.ModData.TEST_ENUM) ~= false then
-        modDataX.remove(enumX.ModData.TEST_ENUM)
-        checkTest(true, true, "ModData Remove")
-    end
-
-    --[[
-    local characterModData = "characterModData"
-
-    modDataX.saveModata(characterModData, value)
+    local testEnum = "testEnum"
+    modDataX.saveModData(testEnum, value)
 
     local results = {}
-    results = modDataX.readModata(characterModData)
+    results = modDataX.readModData(testEnum)
     local result = results[1]
 
-    checkTest(result, value, "ModData single value")
+    dbgLeleLib.checkTest(result, value, "ModData single value")
 
-    if modDataX.isExists(characterModData) then
-        checkTest(true, true, "ModData isExists")
+    if modDataX.isExists(testEnum) then
+        dbgLeleLib.checkTest(true, true, "ModData isExists")
     end
 
-    if modDataX.remove(characterModData) ~= false then
-        modDataX.remove(characterModData)
-        checkTest(true, true, "ModData Remove")
+    if modDataX.remove(testEnum) ~= false then
+        modDataX.remove(testEnum)
+        dbgLeleLib.checkTest(true, true, "ModData Remove")
     end
 
-    modDataX.saveModata(characterModData, values)
+    modDataX.saveModData(testEnum, values)
 
     results = {}
-    results = modDataX.readModata(characterModData)
+    results = modDataX.readModData(testEnum)
 
     if type(results) == "table" then
-        checkTest(true, true, "ModData multi value")
+        dbgLeleLib.checkTest(true, true, "ModData multi value")
     end
 
-    if modDataX.isExists(characterModData) then
-        checkTest(true, true, "ModData isExists")
+    if modDataX.isExists(testEnum) then
+        dbgLeleLib.checkTest(true, true, "ModData isExists")
     end
 
-    if modDataX.remove(characterModData) ~= false then
-        modDataX.remove(characterModData)
-        checkTest(true, true, "ModData Remove")
+    if modDataX.remove(testEnum) ~= false then
+        modDataX.remove(testEnum)
+        dbgLeleLib.checkTest(true, true, "ModData Remove")
     end
-    ]]
 end
 
 --- ------------------------------------------------
@@ -331,7 +276,7 @@ local function traitsPerk()
         flag = true
     end
 
-    checkTest(true,
+    dbgLeleLib.checkTest(true,
             true, "Get PerkDetails")
 
     flag = false
@@ -339,7 +284,7 @@ local function traitsPerk()
         flag = true
     end
 
-    checkTest(true,
+    dbgLeleLib.checkTest(true,
             true, "Get Traits")
 
     characterPz.removeProfession(character)
@@ -360,7 +305,7 @@ local function perkProfession()
         flag = true
     end
 
-    checkTest(true,
+    dbgLeleLib.checkTest(true,
             true, "Get perkProfession")
 
     characterPz.removeProfession(character)
@@ -379,13 +324,13 @@ local function characterLibAllPerks()
         flag = true
     end
 
-    checkTest(true,
+    dbgLeleLib.checkTest(true,
             true, "All Skills")
 
     local profession = CharacterObj01:getProfession()
     local profession_ = characterPz.getProfession_PZ(character)
 
-    checkTest(profession,
+    dbgLeleLib.checkTest(profession,
             profession_, "All Skills - Profession")
 end
 
@@ -409,7 +354,7 @@ local function characterLibPerksBoost()
         end
     end
 
-    checkTest(true,
+    dbgLeleLib.checkTest(true,
             true, "Perks Boost")
 
     characterPz.removePerkBoost(character, Perks.Cooking, boost)
@@ -433,7 +378,7 @@ local function characterLibKnownRecipes()
         end
     end
 
-    checkTest(flag,
+    dbgLeleLib.checkTest(flag,
             true, "KnownRecipes")
 
 end
@@ -451,7 +396,7 @@ local function characterLibMultiplier()
 
     for _, v in pairs(CharacterObj01:getPerkDetails()) do
         if v:getPerk() == Perks.Cooking then
-            checkTest(v:getMultiplier(),
+            dbgLeleLib.checkTest(v:getMultiplier(),
                     multiplier, "Multiplier")
         end
     end
@@ -498,9 +443,9 @@ local function characterLibDe_EncodePerkDetails(character)
     end
 
     if perk == perk2 and level == level2 and xp == xp2 then
-        checkTest(true, true, "De_EncodePerkDetails")
+        dbgLeleLib.checkTest(true, true, "De_EncodePerkDetails")
     else
-        checkTest(false, true, "De_EncodePerkDetails")
+        dbgLeleLib.checkTest(false, true, "De_EncodePerkDetails")
     end
 
     lines = {}

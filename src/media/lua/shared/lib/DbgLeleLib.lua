@@ -8,7 +8,29 @@
 
 local DbgLeleLib = {}
 
+local test_ = "Test - "
+local fail_ = " >>>>>>>>>>>>>> FAIL"
+local ok_ = " >>>>>>>>>>>>>> Ok"
+
 local perkFactoryPZ = require("lib/PerkFactoryPZ")
+
+local function fail(value)
+    print(test_ .. value .. fail_)
+end
+
+local function ok(value)
+    print(test_ .. value .. ok_)
+end
+
+function DbgLeleLib.checkTest(value1, value2, nameTest)
+    if value1 == value2 then
+        ok(nameTest)
+    else
+        fail(nameTest)
+    end
+end
+
+
 
 DbgLeleLib.EnumProfession = {
     UNEMPLOYED = "",
@@ -83,6 +105,10 @@ DbgLeleLib.EnumPerk = {
     Woodwork = perkFactoryPZ.getPerkByName_PZ("Carpentry"),  -- Woodwork
 }
 
+function DbgLeleLib.printLine()
+    print("---------------------------------------------------------------------")
+end
+
 ---display
 ---@param displayName
 ---@param i
@@ -90,9 +116,13 @@ DbgLeleLib.EnumPerk = {
 ---@param level
 ---@param xp
 function DbgLeleLib.display(displayName, i, perk, level, xp)
+    local dbg1 = perk
+    local dbg2 = level
+    local dbg3 = xp
     print(displayName .. " " ..
         tostring(i) .. " >> " .. tostring(perk) .. " - " ..
         tostring(level) .. " - " .. tostring(xp) )
+    local dbg
 end
 
 ---display
@@ -102,24 +132,15 @@ end
 ---@param level
 ---@param xp
 function DbgLeleLib.displayAdvanced(displayName, i, perk, level, xp)
+    local dbg1 = perk
+    local dbg2 = level
+    local dbg3 = xp
+
     print(displayName .. " " ..
         tostring(i) .. " >> " ..
         type(perk) .. " " .. tostring(perk) .. " - " ..
         type(level) .. " " .. tostring(level) .. " - " ..
         type(xp) .. " " .. tostring(xp) )
-end
-
-
----@param displayName string
----@param perk
----@param level
-function DbgLeleLib.displayPerk(displayName, i, perk, level, xp)
-    local dbg1 = perk
-    local dbg2 = level
-    local dbg3 = xp
-    print("--------------------------------")
-    DbgLeleLib.display(displayName, i, perk, level, xp)
-    print("--------------------------------")
     local dbg
 end
 
@@ -137,9 +158,9 @@ function DbgLeleLib.checkPerk(displayName, perk_, perk, level )
     if perk_ == perk then
         dbg1 = perk_
         dbg2 = level
-        print("--------------------------------")
+        DbgLeleLib.printLine()
         DbgLeleLib.display(displayName, nil, perk, level, nil)
-        print("--------------------------------")
+        DbgLeleLib.printLine()
 
         local dbg
     end
@@ -148,26 +169,26 @@ function DbgLeleLib.checkPerk(displayName, perk_, perk, level )
 end
 
 function DbgLeleLib.displayCharacterObj(displayName, CharacterObj )
-    print("--------------------------------")
+    DbgLeleLib.printLine()
     for i, v in pairs(CharacterObj) do
         DbgLeleLib.display(displayName, i,
                 v:getPerk(), v:getLevel(), v:getXp())
         --DbgLeleLib.displayAdvanced(displayName, i,
         --        v:getPerk(), v:getLevel(), v:getXp())
     end
-    print("--------------------------------")
+    DbgLeleLib.printLine()
 end
 
 ---@param displayName string
 ---@param perks_list
 function DbgLeleLib.displayListPerks(displayName, perks_list)
-    print("--------------------------------")
+    DbgLeleLib.printLine()
     for i, v in pairs(perks_list) do
         DbgLeleLib.display(displayName, i, v.perk, v.level, nil)
         -- DbgLeleLib.displayAdvanced(displayName, i, v.perk, v.level, nil)
         -- DBG_GetCheckPerk("DBG_GetCheckPerk", v.perk_, v.perk, _ )
     end
-    print("--------------------------------")
+    DbgLeleLib.printLine()
 end
 
 return DbgLeleLib
