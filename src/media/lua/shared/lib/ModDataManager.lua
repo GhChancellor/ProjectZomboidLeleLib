@@ -4,14 +4,14 @@
 --- DateTime: 10/05/23 15:11
 ---
 
----@class ModDataX
+---@class ModDataManager
 
-local modDataX = {}
+local modDataManager = {}
 
 ---Save ModData
 ---@param nameFile String
 ---@param values string or table
-function modDataX.saveModData(modData, values)
+function modDataManager.save(modData, values)
     if not modData or not values then
         return nil
     end
@@ -35,7 +35,7 @@ end
 ---Read ModData
 ---@param nameFile String
 ---@return table
-function modDataX.readModData(modData)
+function modDataManager.read(modData)
     if not modData then
         return nil
     end
@@ -51,6 +51,7 @@ function modDataX.readModData(modData)
         for _, v in pairs(lines) do
             table.insert(conversionTotable, v)
         end
+
         return conversionTotable
     end
 end
@@ -58,7 +59,7 @@ end
 ---Is modData Exists
 ---@param nameFile String
 --- - ModData : zombie.world.moddata.ModDa
-function modDataX.isExists(modData)
+function modDataManager.isExists(modData)
     if not modData then
         return nil
     end
@@ -69,7 +70,7 @@ end
 --- Remove modData
 ---@param nameFile String
 --- - ModData : zombie.world.moddata.ModDa
-function modDataX.remove(modData)
+function modDataManager.remove(modData)
     if not modData then
         return nil
     end
@@ -77,4 +78,4 @@ function modDataX.remove(modData)
     ModData.remove(modData)
 end
 
-return modDataX
+return modDataManager

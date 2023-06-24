@@ -354,7 +354,10 @@ function CharacterPz.removeMultiplier(character, perk)
         return
     end
 
-    CharacterPz.addXpMultiplier_PZ(character, perk, -multiplier,
+    multiplier = CharacterPz.trunkFloatTo2Decimal(-multiplier)
+    local dbg1 = multiplier
+    print("----------------------------------------" .. tostring(multiplier))
+    CharacterPz.addXpMultiplier_PZ(character, perk, multiplier,
             1, 1)
 
 end

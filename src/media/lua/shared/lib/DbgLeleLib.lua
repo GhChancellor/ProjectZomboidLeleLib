@@ -7,6 +7,9 @@
 ---@class DbgLeleLib
 
 local DbgLeleLib = {}
+local characterPz = require("lib/CharacterPZ")
+local isoPlayerPZ = require("lib/IsoPlayerPZ")
+local characterLib = require("CharacterLib")
 
 local test_ = "Test - "
 local fail_ = " >>>>>>>>>>>>>> FAIL"
@@ -186,12 +189,82 @@ function DbgLeleLib.displayListPerks(displayName, perks_list)
     DbgLeleLib.printLine()
 end
 
-function DbgLeleLib.timesCount(count, coount2)
-    if count == coount2 then
+function DbgLeleLib.timesCount(count, count2)
+    if count == count2 then
         return true
     end
 
     return false
+end
+
+function DbgLeleLib.deleteCharacter()
+    local character = getPlayer()
+    local zero = 0.0
+    local CharacterDeleteObj = CharacterBaseObj:new()
+    CharacterDeleteObj = characterLib.getAllPerks(character)
+
+    for _, v in pairs(CharacterDeleteObj:getPerkDetails()) do
+        characterPz.removePerkBoost(character, v:getPerk())
+    end
+
+    characterPz.setZombieKills_PZ(character, characterPz.EnumNumbers.ZERO)
+    isoPlayerPZ.setHoursSurvived_PZ(zero)
+
+    for _, v in pairs(CharacterDeleteObj:getPerkDetails()) do
+        characterPz.removeMultiplier(character, v:getPerk())
+    end
+
+    isoPlayerPZ.setCalories_PZ(zero)
+    isoPlayerPZ.setWeight_PZ(zero)
+
+    for _, v in pairs(CharacterDeleteObj:getPerkDetails()) do
+        characterPz.removePerkLevel(character, v:getPerk())
+    end
+
+    characterPz.removeProfession(character)
+
+    CharacterDeleteObj = characterLib.getKnownRecipes(character)
+
+    for _, v in pairs(CharacterDeleteObj:getRecipes()) do
+        characterPz.removeKnowRecipe_PZ(character, v)
+    end
+
+    characterPz.removeAllTraits_PZ(character)
+
+    character = getPlayer()
+end
+
+function DbgLeleLib.createCharacter()
+    local character = getPlayer()
+    characterPz.setProfession_PZ(character, DbgLeleLib.EnumProfession.CARPENTER)
+
+    characterPz.setPerkLevel(character, Perks.Fitness, 37500)
+    characterPz.setPerkLevel(character, Perks.Strength, 37500)
+    characterPz.setPerkLevel(character, Perks.Woodwork, 1275)
+    characterPz.setPerkLevel(character, Perks.Maintenance, 75)
+    characterPz.setPerkLevel(character, Perks.SmallBlunt, 75)
+
+    characterPz.setPerkBoost_PZ(character, Perks.Fitness, 3)
+    characterPz.setPerkBoost_PZ(character, Perks.Strength, 3)
+    characterPz.setPerkBoost_PZ(character, Perks.Woodwork, 3)
+
+    characterPz.setTraitsPerk_PZ(character,"HardOfHearing" )
+    characterPz.setTraitsPerk_PZ(character,"SlowReader" )
+    characterPz.setTraitsPerk_PZ(character,"Handy" )
+
+    characterPz.setZombieKills_PZ(character, 15)
+
+    characterPz.addXpMultiplier_PZ(character, Perks.Cooking, 1.0,
+            characterPz.EnumNumbers.ONE, characterPz.EnumNumbers.ONE)
+
+    local recipe = "Make Pizza"
+    characterPz.addKnownRecipe(character, recipe)
+
+    isoPlayerPZ.setHoursSurvived_PZ(10)
+    isoPlayerPZ.setCalories_PZ(1500)
+    isoPlayerPZ.setWeight_PZ(92)
+
+    character = getPlayer()
 end
 
 return DbgLeleLib
