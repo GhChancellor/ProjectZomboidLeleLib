@@ -348,16 +348,7 @@ function CharacterPz.removeMultiplier(character, perk)
         return nil
     end
 
-    local multiplier = character:getXp():getMultiplier(perk)
-
-    if multiplier == 0.0 or multiplier == nil then
-        return
-    end
-
-    multiplier = CharacterPz.trunkFloatTo2Decimal(-multiplier)
-    local dbg1 = multiplier
-    print("----------------------------------------" .. tostring(multiplier))
-    CharacterPz.addXpMultiplier_PZ(character, perk, multiplier,
+    CharacterPz.addXpMultiplier_PZ(character, perk, CharacterPz.EnumNumbers.ZERO,
             1, 1)
 
 end
