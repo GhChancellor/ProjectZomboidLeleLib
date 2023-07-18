@@ -43,7 +43,7 @@ end
 ---@param character IsoGameCharacter
 local function key37(character, key)
     if key == 37 then -- <<<< k
-        print("Key = k > delete \n")
+        print("Key = k > kill \n")
         character:die()
     end
 end

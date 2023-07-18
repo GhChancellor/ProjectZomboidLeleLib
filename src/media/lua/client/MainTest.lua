@@ -23,10 +23,10 @@ end
 local function baseProfession()
     charaterUpdate()
 
-    characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.BURGER_FLIPPER)
+    characterPz.setProfession_PZ(character, dbgLeleLib.Profession.BURGER_FLIPPER)
     local profession = characterPz.getProfession_PZ(character)
 
-    dbgLeleLib.checkTest(profession , dbgLeleLib.EnumProfession.BURGER_FLIPPER,
+    dbgLeleLib.checkTest(profession , dbgLeleLib.Profession.BURGER_FLIPPER,
             "Profession" )
 
     characterPz.removeProfession(character)
@@ -138,7 +138,7 @@ end
 local function basePerkLevel()
     charaterUpdate()
 
-    characterPz.setPerkLevel(character, Perks.Cooking, 75)
+    characterPz.setPerkLevelFromXp(character, Perks.Cooking, 75)
 
     local level = characterPz.getPerkLevel_PZ(character, Perks.Cooking)
 
@@ -312,7 +312,7 @@ end
 local function traitsPerk()
     charaterUpdate()
 
-    characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.CHEF)
+    characterPz.setProfession_PZ(character, dbgLeleLib.Profession.CHEF)
 
     local trait_ = "Feeble"
     characterPz.setTraitsPerk_PZ(character, trait_)
@@ -347,7 +347,7 @@ end
 local function perkProfession()
     charaterUpdate()
 
-    characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.CHEF)
+    characterPz.setProfession_PZ(character, dbgLeleLib.Profession.CHEF)
 
     local CharacterObj01 = CharacterBaseObj:new()
 
@@ -478,15 +478,15 @@ end
 local function characterLibDe_EncodePerkDetails()
     charaterUpdate()
 
-    characterPz.setProfession_PZ(character, dbgLeleLib.EnumProfession.CARPENTER)
-    characterPz.setPerkLevel(character, dbgLeleLib.EnumPerk.Woodwork, 100.0)
+    characterPz.setProfession_PZ(character, dbgLeleLib.Profession.CARPENTER)
+    characterPz.setPerkLevelFromXp(character, dbgLeleLib.Perks.WOODWORK, 100.0)
 
     charaterUpdate()
 
     local CharacterObj01 = CharacterBaseObj:new()
     local CharacterDecodeObj = CharacterBaseObj:new()
 
-    local perk = perkFactoryPZ.getPerk_PZ(dbgLeleLib.EnumPerk.Woodwork)
+    local perk = perkFactoryPZ.getPerk_PZ(dbgLeleLib.Perks.WOODWORK)
     local level = characterPz.getPerkLevel_PZ(character, perk)
     local xp = characterPz.getXp(character, perk)
 
@@ -587,8 +587,9 @@ end
 ---@param character IsoGameCharacter
 local function key35(character, key)
     if key == 35 then -- <<< h
-        print("Key = h >  \n")
-        characterLibMultiplier()
+        print("Key = h > addXP_PZ \n")
+        characterPz.addXP_PZ(character, dbgLeleLib.Perks.COOKING, 0,
+                false, false, true )
     end
 end
 
