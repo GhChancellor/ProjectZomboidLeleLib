@@ -16,6 +16,7 @@ require("lib/CharacterBaseObj")
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 local character = getPlayer()
 
+--- **Character Update**
 local function charaterUpdate()
     character = characterLib.charaterUpdate()
 end
@@ -534,7 +535,7 @@ end
 --- ------------------------------------------------------------
 
 local function baseTest()
-    print("---------- Base ----------\n")
+    --print("---------- Base ----------\n")
     baseProfession()
     baseKnownRecipes()
     baseTrunkFloatTo2Decimal()
@@ -553,11 +554,11 @@ local function baseTest()
     baseCalories()
     baseModData()
     baseUserName()
-    print("---------- finish Base test ----------\n")
+    --print("---------- finish Base test ----------\n")
 end
 
 local function characterLibTest()
-    print("---------- CharacterLib ----------\n")
+    --print("---------- CharacterLib ----------\n")
     traitsPerk()
     perkProfession()
     -- -- currentSkill()
@@ -567,7 +568,13 @@ local function characterLibTest()
     characterLibMultiplier()
     characterLibDe_EncodePerkDetails()
 
-    print("---------- finish CharacterLib test ----------\n")
+    --print("---------- finish CharacterLib test ----------\n")
+
+    dbgLeleLib.printLine()
+
+    dbgLeleLib.displayTest()
+
+    dbgLeleLib.printLine()
 end
 
 -- Perks.Maintenance
@@ -587,9 +594,8 @@ end
 ---@param character IsoGameCharacter
 local function key35(character, key)
     if key == 35 then -- <<< h
-        print("Key = h > addXP_PZ \n")
-        characterPz.addXP_PZ(character, dbgLeleLib.Perks.COOKING, 0,
-                false, false, true )
+        print("Key = h >  \n")
+
     end
 end
 

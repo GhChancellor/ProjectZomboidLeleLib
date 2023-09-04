@@ -12,28 +12,95 @@ local isoPlayerPZ = require("lib/IsoPlayerPZ")
 local characterLib = require("CharacterLib")
 local perkFactoryPZ = require("lib/PerkFactoryPZ")
 
+-- -----------------------------------------------------------
+
+local results = {
+    ---@type int
+    passed = 0,
+    ---@type int
+    notPassed = 0
+}
+
+---@type string
 local test_ = "Test - "
+
+---@type string
 local fail_ = " >>>>>>>>>>>>>> FAIL"
-local ok_ = " >>>>>>>>>>>>>> Ok"
 
+---@type string
+local ok_ = " >>>>>>>>>>>>>> PASSED"
 
-local function fail(value)
-    print(test_ .. value .. fail_)
+--- ** funcName01 ** if **true** test passed, if **false** not passed
+---@param nameTest string
+---@param flag boolean
+local function printTestResult(nameTest, flag)
+    if (flag) then
+        print(test_ .. nameTest .. ok_)
+        return
+    end
+
+    print(test_ .. nameTest .. fail_)
 end
 
-local function ok(value)
-    print(test_ .. value .. ok_)
+--- **Show all Result**
+---@param expectedValue
+---@param currentValue
+---@param nameTest string
+---@return boolean
+function DbgLeleLib.showAllResult(expectedValue, currentValue, nameTest)
+    if expectedValue == currentValue then
+        printTestResult(nameTest, true)
+        return true
+    end
+
+    printTestResult(nameTest, false)
+    return false
 end
 
-function DbgLeleLib.checkTest(value1, value2, nameTest)
-    if value1 == value2 then
-        ok(nameTest)
+--- **Show Only False Results**
+---@param expectedValue
+---@param currentValue
+---@param nameTest string
+---@return boolean
+function DbgLeleLib.showOnlyFalseResult(expectedValue, currentValue, nameTest)
+    if expectedValue ~= currentValue then
+        DbgLeleLib.showAllResult(expectedValue, currentValue, nameTest)
+        return false
+    end
+
+    return true
+end
+
+--- **Unit Lua, check methods**
+---@param expectedValue
+---@param currentValue
+---@param nameTest string
+---@return int result
+function DbgLeleLib.checkTest(expectedValue, currentValue, nameTest)
+
+    -- Per vedere tutti i risultati
+    --if DbgLeleLib.showAllResult(expectedValue, currentValue, nameTest) then
+    --    results.passed = results.passed + 1
+    --else
+    --    results.notPassed = results.notPassed + 1
+    --end
+
+    if DbgLeleLib.showOnlyFalseResult(expectedValue, currentValue, nameTest) then
+        results.passed = results.passed + 1
     else
-        fail(nameTest)
+        results.notPassed = results.notPassed + 1
     end
 end
 
----Get Profession ENUM
+function DbgLeleLib.displayTest()
+    print("Passed:", results.passed)
+    print("Not Passed:", results.notPassed)
+
+    results.passed = 0
+    results.notPassed = 0
+end
+
+--- **Get Profession ENUM**
 ---@return string
 DbgLeleLib.Profession = {
     UNEMPLOYED = "",
@@ -60,7 +127,7 @@ DbgLeleLib.Profession = {
     VETERAN = "veteran"
 }
 
---- Get Perk ENUM
+--- **Get Perk ENUM**
 ---@return PerkFactory.Perk perk
 --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 DbgLeleLib.Perks = {
@@ -102,11 +169,12 @@ DbgLeleLib.Perks = {
     WOODWORK = Perks.Woodwork,
 }
 
+--- **Create a line**
 function DbgLeleLib.printLine()
     print("---------------------------------------------------------------------")
 end
 
----Set Perk Level
+--- **Set Perk Level**
 ---@param character IsoGameCharacter
 ---@param perk PerkFactory.Perk
 ---@param level int
@@ -126,7 +194,7 @@ function DbgLeleLib.setPerkLevel(character, perk, level)
     characterPz.addXP_PZ(character, perk, convertLevelToXp, false, false, true)
 end
 
----display
+--- **Display**
 ---@param displayName
 ---@param i
 ---@param perk
@@ -142,7 +210,7 @@ function DbgLeleLib.display(displayName, i, perk, level, xp)
     local dbg
 end
 
----display
+--- **Display Advanced**
 ---@param displayName
 ---@param i
 ---@param perk
@@ -161,10 +229,12 @@ function DbgLeleLib.displayAdvanced(displayName, i, perk, level, xp)
     local dbg
 end
 
+--- **Check Perk**
 ---@param displayName string
 ---@param perk_ PerkFactory.Perk
 ---@param perk PerkFactory.Perk
 ---@param level int
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function DbgLeleLib.checkPerk(displayName, perk, perk_ )
     -- Perks.Maintenance
     local dbg1 = perk
@@ -178,9 +248,12 @@ function DbgLeleLib.checkPerk(displayName, perk, perk_ )
     end
 end
 
-function DbgLeleLib.displayCharacterObj(displayName, CharacterObj )
+--- **Display CharacterObj**
+---@param displayName string
+---@param CharacterBaseObj CharacterBaseObj
+function DbgLeleLib.displayCharacterObj(displayName, CharacterBaseObj)
     DbgLeleLib.printLine()
-    for i, v in pairs(CharacterObj) do
+    for i, v in pairs(CharacterBaseObj) do
         DbgLeleLib.display(displayName, i,
                 v:getPerk(), v:getLevel(), v:getXp())
         --DbgLeleLib.displayAdvanced(displayName, i,
@@ -189,6 +262,7 @@ function DbgLeleLib.displayCharacterObj(displayName, CharacterObj )
     DbgLeleLib.printLine()
 end
 
+--- **displayListPerks**
 ---@param displayName string
 ---@param perks_list
 function DbgLeleLib.displayListPerks(displayName, perks_list)
@@ -201,6 +275,9 @@ function DbgLeleLib.displayListPerks(displayName, perks_list)
     DbgLeleLib.printLine()
 end
 
+--- **Times Count**
+---@param count int
+---@param count2 int
 function DbgLeleLib.timesCount(count, count2)
     if count == count2 then
         return true
@@ -209,6 +286,7 @@ function DbgLeleLib.timesCount(count, count2)
     return false
 end
 
+--- **Delete Character**
 function DbgLeleLib.deleteCharacter()
     local character = getPlayer()
     local zero = 0.0
@@ -259,6 +337,7 @@ function DbgLeleLib.deleteCharacter()
     character = getPlayer()
 end
 
+--- **Create Character**
 function DbgLeleLib.createCharacter()
     local character = getPlayer()
 
