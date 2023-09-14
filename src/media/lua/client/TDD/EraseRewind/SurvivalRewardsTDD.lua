@@ -61,7 +61,9 @@ local function survivalRewards_TDD()
     character:getModData().kilMilReached = reset
     character:getModData().milReached = reset
 
+    dbgLeleLib.printLine()
     dbgLeleLib.displayTest()
+    dbgLeleLib.printLine()
 end
 
 -- Perks.Maintenance
@@ -71,8 +73,7 @@ end
 ---@param character IsoGameCharacter
 local function key34(character, key)
     if key == 34 then -- <<<< g
-        print("Key = g > writeBook \n")
-        survivalRewards_TDD()
+        print("Key = g >  \n")
     end
 end
 
@@ -87,8 +88,9 @@ end
 ---@param character IsoGameCharacter
 local function key36(character, key)
     if key == 36 then -- <<<< j
-        print("Key = j > \n")
-
+        print("Key = j > survivalRewards TDD \n")
+        dbgLeleLib.setVerbose(false)
+        survivalRewards_TDD()
     end
 end
 

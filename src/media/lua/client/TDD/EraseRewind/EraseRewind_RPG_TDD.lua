@@ -19,7 +19,7 @@ local function character_TDD()
 
     -- check Profession
     dbgLeleLib.checkTest(characterPz.getProfession_PZ(character),
-            dbgLeleLib.EnumProfession.CARPENTER, "Profession" )
+            dbgLeleLib.Profession.CARPENTER, "Profession" )
 
     -- check Perk Level
     dbgLeleLib.checkTest( characterPz.getXp(character, Perks.Fitness),
@@ -72,14 +72,17 @@ local function character_TDD()
     dbgLeleLib.checkTest(isoPlayerPZ.getWeight_PZ(),
             92, "Weight")
 
+    dbgLeleLib.printLine()
     dbgLeleLib.displayTest()
+    dbgLeleLib.printLine()
 end
 
 -- Todo 		self.character:playSound("CloseBook")
 ---@param character IsoGameCharacter
 local function key34(character, key)
     if key == 34 then -- <<<< g
-        print("Key = g > writeBook \n")
+        print("Key = g > EraseRewind_RPG TDD \n")
+        dbgLeleLib.setVerbose(false)
         dbgLeleLib.deleteCharacter()
         dbgLeleLib.createCharacter()
         writeBook(character)

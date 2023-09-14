@@ -42,6 +42,7 @@ function CharacterPz.getXp(character, perk)
         return nil
     end
 
+    ---@type float
     local xp = CharacterPz.getXp_PZ(character, perk)
     return CharacterPz.trunkFloatTo2Decimal( xp ) -- Perks.Maintenance
 end
@@ -117,7 +118,7 @@ CharacterPz.EnumNumbers = {
     TEN = 10,
 }
 
---- **Set Perk Level from XP 75 - 150 ...... **
+--- **Set Perk Level from XP 75 - 150 ......**
 ---@param character IsoGameCharacter
 ---@param perk PerkFactory.Perk
 ---@param xp float
@@ -223,6 +224,7 @@ end
 
 --- **Set Trait**
 ---@param character IsoGameCharacter
+---@param trait string
 ---@param ---@return List | TraitCollection trait String
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 --- - TraitCollection.TraitSlot : zombie.characters.traits.TraitCollection.TraitSlot
@@ -372,6 +374,7 @@ end
 --- **Get Perk Boost**
 ---@param character IsoGameCharacter
 ---@param perk PerkFactory.Perk
+---@return int perkBoost
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function CharacterPz.getPerkBoost_PZ(character, perk)

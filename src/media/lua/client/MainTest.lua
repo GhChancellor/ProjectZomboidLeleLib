@@ -76,7 +76,7 @@ local function baseZombieKills()
     characterPz.setZombieKills_PZ(character, 15)
 
     dbgLeleLib.checkTest(characterPz.getZombieKills_PZ(character), 15,
-           "ZombieKills" )
+            "ZombieKills" )
 
     characterPz.setZombieKills_PZ(character, 0)
 
@@ -203,7 +203,7 @@ end
 local function baseConvertLevelToXp()
     local xp = perkFactoryPZ.convertLevelToXp(Perks.Cooking, 1)
 
-   dbgLeleLib.checkTest(xp, 75, "ConvertLevelToXp")
+    dbgLeleLib.checkTest(xp, 75, "ConvertLevelToXp")
 end
 
 local function basePerkName()
@@ -471,7 +471,7 @@ local function characterLibMultiplier()
         end
     end
 
-   characterPz.removeMultiplier(character, Perks.Cooking)
+    characterPz.removeMultiplier(character, Perks.Cooking)
 
     charaterUpdate()
 end
@@ -571,9 +571,7 @@ local function characterLibTest()
     --print("---------- finish CharacterLib test ----------\n")
 
     dbgLeleLib.printLine()
-
     dbgLeleLib.displayTest()
-
     dbgLeleLib.printLine()
 end
 
@@ -586,6 +584,7 @@ local function key34(character, key)
 
     if key == 34 then -- <<<< g
         print("Key = g > characterLibTest \n")
+        dbgLeleLib.setVerbose(false)
         baseTest()
         characterLibTest()
     end

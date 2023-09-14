@@ -58,7 +58,8 @@ end
 
 --- **Is modData Exists**
 ---@param nameFile String
---- - ModData : zombie.world.moddata.ModDa
+---@return boolean
+--- - ModData : zombie.world.moddata.ModData
 function modDataManager.isExists(nameFile)
     if not nameFile then
         return nil
@@ -69,7 +70,7 @@ end
 
 --- **Remove modData**
 ---@param nameFile String
---- - ModData : zombie.world.moddata.ModDa
+--- - ModData : zombie.world.moddata.ModData
 function modDataManager.remove(nameFile)
     if not nameFile then
         return nil

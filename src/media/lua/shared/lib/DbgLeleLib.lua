@@ -30,7 +30,16 @@ local fail_ = " >>>>>>>>>>>>>> FAIL"
 ---@type string
 local ok_ = " >>>>>>>>>>>>>> PASSED"
 
---- ** funcName01 ** if **true** test passed, if **false** not passed
+---@type boolean
+local advancedTest
+
+--- **Show more info about test**
+---@param advancedTest_ boolean
+function DbgLeleLib.setVerbose(advancedTest_)
+    advancedTest = advancedTest_
+end
+
+--- **PrintTestResult** if **true** test passed, if **false** not passed
 ---@param nameTest string
 ---@param flag boolean
 local function printTestResult(nameTest, flag)
@@ -71,6 +80,7 @@ function DbgLeleLib.showOnlyFalseResult(expectedValue, currentValue, nameTest)
     return true
 end
 
+-- TODO: advancedTest check doesn't work
 --- **Unit Lua, check methods**
 ---@param expectedValue
 ---@param currentValue
@@ -78,23 +88,25 @@ end
 ---@return int result
 function DbgLeleLib.checkTest(expectedValue, currentValue, nameTest)
 
-    -- Per vedere tutti i risultati
-    --if DbgLeleLib.showAllResult(expectedValue, currentValue, nameTest) then
-    --    results.passed = results.passed + 1
-    --else
-    --    results.notPassed = results.notPassed + 1
-    --end
-
-    if DbgLeleLib.showOnlyFalseResult(expectedValue, currentValue, nameTest) then
-        results.passed = results.passed + 1
+    if advancedTest then
+        if DbgLeleLib.showAllResult(expectedValue, currentValue, nameTest) then
+            results.passed = results.passed + 1
+        else
+            results.notPassed = results.notPassed + 1
+        end
     else
-        results.notPassed = results.notPassed + 1
+        if DbgLeleLib.showOnlyFalseResult(expectedValue, currentValue, nameTest) then
+            results.passed = results.passed + 1
+        else
+            results.notPassed = results.notPassed + 1
+        end
     end
 end
 
 function DbgLeleLib.displayTest()
-    print("Passed:", results.passed)
-    print("Not Passed:", results.notPassed)
+    print("------------------CHECK TEST------------------")
+    print("PASSED: >>>>>>>>>>>>>>> ", results.passed)
+    print("NOT PASSED:  >>>>>>>>>> ", results.notPassed)
 
     results.passed = 0
     results.notPassed = 0
