@@ -8,6 +8,8 @@
 
 local CharacterPz = {}
 
+local dataValidator = require("lib/DataValidator")
+
 --- **Add XP**
 ---@param character IsoGameCharacter
 ---@param perk PerkFactory.Perk
@@ -44,7 +46,7 @@ function CharacterPz.getXp(character, perk)
 
     ---@type float
     local xp = CharacterPz.getXp_PZ(character, perk)
-    return CharacterPz.trunkFloatTo2Decimal( xp ) -- Perks.Maintenance
+    return dataValidator.trunkFloatTo2Decimal( xp ) -- Perks.Maintenance
 end
 
 --- **Get XP perk**
@@ -62,8 +64,9 @@ function CharacterPz.getXp_PZ(character, perk)
     return character:getXp():getXP(perk) -- Perks.Maintenance
 end
 
+--- **Trunk Float To 2 Decimal**
 ---@param value double
----@return int
+---@return double
 function CharacterPz.trunkFloatTo2Decimal(value)
     return tonumber(string.format("%.2f", value)) + 0.0
 end
@@ -190,7 +193,8 @@ end
 ---@param killZombies int
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function CharacterPz.setZombieKills_PZ(character, killZombies)
-    if not character or not killZombies then
+    if not character or type(killZombies) ~= "number" or
+            math.floor(killZombies) ~= killZombies  then
         return nil
     end
 
@@ -405,6 +409,15 @@ end
 ---@param recipe string
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function CharacterPz.addKnownRecipe(character, recipe)
+    if not character then
+        return nil
+    end
+
+    --if not character or type(recipe) ~= "string" then
+    --    print("no")
+    --    return nil
+    --end
+
     CharacterPz.learnRecipe_PZ(character, recipe)
 end
 

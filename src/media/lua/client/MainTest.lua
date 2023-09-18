@@ -4,11 +4,17 @@
 --- DateTime: 07/05/23 10:44
 ---
 
+-- Update 1850 - 14-09-2023
+
+-- TODO Valutare un controllo per il valore recipe se non è string CharacterPz.addKnownRecipe(character, recipe) e CharacterPz.setZombieKills_PZ(character, killZombies)
+--
+
 local dbgLeleLib = require("lib/DbgLeleLib")
 local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZ = require("lib/PerkFactoryPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
 local modDataManager = require("lib/ModDataManager")
+local dataValidator = require("lib/DataValidator")
 local characterLib = require("CharacterLib")
 require("lib/CharacterBaseObj")
 
@@ -65,7 +71,7 @@ local function baseKnownRecipes()
 end
 
 local function baseTrunkFloatTo2Decimal()
-    local value = characterPz.trunkFloatTo2Decimal(1.151)
+    local value = dataValidator.trunkFloatTo2Decimal(1.151)
 
     dbgLeleLib.checkTest(value, 1.15, "TrunkFloatTo2Decimal")
 end
@@ -98,7 +104,6 @@ local function basePerkBoost()
     charaterUpdate()
 end
 
--- todo non funziona correttamente, se preso singolarmente al il test viene fallito
 local function baseMultiplier()
     charaterUpdate()
 
@@ -110,7 +115,7 @@ local function baseMultiplier()
 
     local value = characterPz.getMultiplier_PZ(character, Perks.Woodwork)
 
-    dbgLeleLib.checkTest(characterPz.trunkFloatTo2Decimal(value),
+    dbgLeleLib.checkTest(dataValidator.trunkFloatTo2Decimal(value),
             multiplier, "Multiplier" )
 
     characterPz.removeMultiplier(character, Perks.Woodwork)
@@ -234,7 +239,7 @@ local function baseCalories()
 
     calories_ = isoPlayerPZ.getCalories_PZ()
 
-    trunckedCalories = characterPz.trunkFloatTo2Decimal(calories_)
+    trunckedCalories = dataValidator.trunkFloatTo2Decimal(calories_)
 
     dbgLeleLib.checkTest(trunckedCalories, calories, "Calories" )
 end
@@ -569,16 +574,14 @@ local function characterLibTest()
     characterLibDe_EncodePerkDetails()
 
     --print("---------- finish CharacterLib test ----------\n")
-
-    dbgLeleLib.printLine()
     dbgLeleLib.displayTest()
-    dbgLeleLib.printLine()
+
 end
 
 -- Perks.Maintenance
 -- Perks.Woodwork
 -- Perks.Sprinting
--- Todo 		self.character:playSound("CloseBook")
+-- self.character:playSound("CloseBook")
 ---@param character IsoGameCharacter
 local function key34(character, key)
 
@@ -623,4 +626,4 @@ local function onCustomUIKeyPressed(key)
     key37(character, key)
 end
 
-Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)
+-- Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)

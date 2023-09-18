@@ -6,9 +6,10 @@
 
 ---@class CharacterLib
 
-require("lib/CharacterBaseObj")
 local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZ = require("lib/PerkFactoryPZ")
+local dataValidator = require("lib/DataValidator")
+require("lib/CharacterBaseObj")
 
 local CharacterLib = {}
 
@@ -160,7 +161,7 @@ function CharacterLib.getMultiplier(character)
 
     for _, v in pairs(CharacterObj01:getPerkDetails()) do
         local multiplier = characterPz.getMultiplier_PZ(character, v:getPerk())
-        v:setMultiplier(characterPz.trunkFloatTo2Decimal(multiplier))
+        v:setMultiplier(dataValidator.trunkFloatTo2Decimal(multiplier))
     end
 
     return CharacterObj01

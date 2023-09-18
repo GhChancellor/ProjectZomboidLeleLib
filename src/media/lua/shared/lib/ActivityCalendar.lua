@@ -4,75 +4,120 @@
 --- DateTime: 09/09/23 11:08
 ---
 
--- ---@class ActivityCalendar
+---@class ActivityCalendar
 
---local ActivityCalendar = {}
---
------@type int
---local SECOND_IN_DAY = 86400
---
------@type double
---local expectedDate
---
------ **Get Star Time**
------@return double seconds
---local function getStarTime()
---    return isoPlayerPZ.getHoursSurvived_PZ() -- 1694078266 -- oggi
---end
---
------ **Get Seconds From Days**
------@param days int
------@return double seconds
---local function getSecondsFromDays(days)
---    return days * SECOND_IN_DAY
---end
---
------ **Get Days From Seconds**
------@param seconds double
------@return int days
---local function getDaysFromSeconds(seconds)
---    return seconds / SECOND_IN_DAY
---end
---
------ **Set Waiting Days**
------@param waitingDays int
---local function setWaitingDays(waitingDays)
---    local dbg1 = getStarTime()
---    local dbg2 = getSecondsFromDays(waitingDays)
---    local dbg
---    expectedDate = getStarTime() + getSecondsFromDays(waitingDays)
---end
---
------ **Set Expected Date**
------@param expectedDate_ double
---function ActivityCalendar.setExpectedDate(expectedDate_)
---    expectedDate = expectedDate_
---end
---
------ **Get Expected Date**
------@return double expectedDate
---function ActivityCalendar.getExpectedDate()
---    return expectedDate
---end
---
------ **Init date**
---function ActivityCalendar.initDate()
---    local days = 1
---    setWaitingDays(days)
---end
---
------ **Is Expected Date**
------@return boolean
---function ActivityCalendar.isExpectedDate()
---    if not expectedDate then
---         ActivityCalendar.initDate()
---    end
---
---    if  getStarTime() >= ActivityCalendar.getExpectedDate() then
---        return true
---    end
---
---    return false
---end
---
---return ActivityCalendar
+-- local characterPz = require("lib/CharacterPZ")
+
+local ActivityCalendar = {}
+
+local dataValidator = require("lib/DataValidator")
+
+local month = {
+    Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6,
+    Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12
+}
+
+---@type int
+local SECOND_IN_DAY = 86400
+
+---@type double
+local expectedDateInSecond
+
+--- **Extract Date**
+---@param date string
+---@return int
+local function extractDate(date)
+    ---@type table
+    local dateParts = {}
+
+    if not dataValidator.isString(date) then
+        return
+    end
+
+    for datePart in date:gmatch("%S+") do
+        table.insert(dateParts, datePart)
+    end
+
+    --@type table
+    local datePartsConverted = {
+        year = tonumber(dateParts[6]),
+        month = month[dateParts[2]],
+        day = tonumber(dateParts[3]),
+        hour = 0,
+        min = 0,
+        sec = 0
+    }
+
+    return os.time(datePartsConverted)
+end
+
+--- **Get Star Time**
+--- - Format date: Fri Jul 09 09:43:41 CEST 1993
+---@return double seconds
+local function getStarTime()
+    ---@type string
+    local date = tostring( getGameTime():getCalender():getTime() )
+    return extractDate(date)
+
+    --
+    ----local dateFromLua = 1694078266 -- oggi
+    --local dateFromFakePZ = "Fri Jul 09 09:43:41 CEST 1993"
+    --local date = dateFromFakePZ
+    -- return extractDate(date)
+    --
+end
+
+--- **Get Seconds From Days**
+---@param days int
+---@return double seconds
+local function getSecondsFromDays(days)
+    return days * SECOND_IN_DAY
+end
+
+--- **Get Days From Seconds**
+---@param seconds double
+---@return int days
+local function getDaysFromSeconds(seconds)
+    return seconds / SECOND_IN_DAY
+end
+
+--- **Set Waiting Days**
+---@param waitingDays int
+local function setWaitingDays(waitingDays)
+    expectedDateInSecond = getStarTime() + getSecondsFromDays(waitingDays)
+end
+
+--- **Set Expected Date In Seconds**
+---@param expectedDate double
+function ActivityCalendar.setExpectedDateInSecond(expectedDate)
+    expectedDateInSecond = expectedDate
+end
+
+--- **Get Expected Date In Seconds**
+---@return double expectedDate
+function ActivityCalendar.getExpectedDateInSecond()
+    return expectedDateInSecond
+end
+
+--- **Is Expected Date**
+---@return boolean
+function ActivityCalendar.isExpectedDate()
+    if not expectedDateInSecond then
+        ActivityCalendar.initDate()
+    end
+
+    if  getStarTime() >= ActivityCalendar.getExpectedDateInSecond() then
+        return true
+    end
+
+    return false
+end
+
+--- **Init date**
+--- @param int
+--- - default 1 day
+function ActivityCalendar.initDate(days)
+    setWaitingDays(days or 1)
+end
+
+return ActivityCalendar

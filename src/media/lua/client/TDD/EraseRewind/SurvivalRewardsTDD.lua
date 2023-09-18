@@ -69,7 +69,7 @@ end
 -- Perks.Maintenance
 -- Perks.Woodwork
 -- Perks.Sprinting
--- Todo 		self.character:playSound("CloseBook")
+-- self.character:playSound("CloseBook")
 ---@param character IsoGameCharacter
 local function key34(character, key)
     if key == 34 then -- <<<< g

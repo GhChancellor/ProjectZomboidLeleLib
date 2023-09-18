@@ -104,12 +104,14 @@ function DbgLeleLib.checkTest(expectedValue, currentValue, nameTest)
 end
 
 function DbgLeleLib.displayTest()
+    DbgLeleLib.printLine()
     print("------------------CHECK TEST------------------")
     print("PASSED: >>>>>>>>>>>>>>> ", results.passed)
     print("NOT PASSED:  >>>>>>>>>> ", results.notPassed)
 
     results.passed = 0
     results.notPassed = 0
+    DbgLeleLib.printLine()
 end
 
 --- **Get Profession ENUM**
@@ -394,6 +396,14 @@ function DbgLeleLib.createCharacter()
     isoPlayerPZ.setWeight_PZ(92)
 
     character = getPlayer()
+end
+
+--- **Create basic Character**
+function DbgLeleLib.createBasicCharacter()
+    local character = getPlayer()
+    characterPz.setPerkLevelFromXp(character, Perks.Fitness, 37500)
+    characterPz.setPerkLevelFromXp(character, Perks.Strength, 37500)
+    isoPlayerPZ.setWeight_PZ(85.0)
 end
 
 return DbgLeleLib

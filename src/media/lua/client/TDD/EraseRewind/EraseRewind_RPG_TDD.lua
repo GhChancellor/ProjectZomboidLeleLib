@@ -8,6 +8,7 @@ local dbgLeleLib = require("lib/DbgLeleLib")
 local characterPz = require("lib/CharacterPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
 local characterLib = require("CharacterLib")
+local dataValidator = require("lib/DataValidator")
 require("lib/CharacterBaseObj")
 
 local character = getPlayer()
@@ -58,7 +59,7 @@ local function character_TDD()
     local multipier1 =
         characterPz.getMultiplier_PZ(character, Perks.Cooking)
 
-    multipier1 = characterPz.trunkFloatTo2Decimal(multipier1)
+    multipier1 = dataValidator.trunkFloatTo2Decimal(multipier1)
 
     local multiplier2 = 1.0
     dbgLeleLib.checkTest(multipier1,
@@ -77,7 +78,7 @@ local function character_TDD()
     dbgLeleLib.printLine()
 end
 
--- Todo 		self.character:playSound("CloseBook")
+-- self.character:playSound("CloseBook")
 ---@param character IsoGameCharacter
 local function key34(character, key)
     if key == 34 then -- <<<< g
