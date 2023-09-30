@@ -4,7 +4,7 @@
 --- DateTime: 26/04/23 17:41
 ---
 
-local dbgLeleLib = require("lib/DbgLeleLib")
+local dbgLeleLib = require("DebugDiagnostics")
 local modDataManager = require("lib/ModDataManager")
 local characterPz = require("lib/CharacterPZ")
 

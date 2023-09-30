@@ -4,10 +4,10 @@
 --- DateTime: 15/09/23 21:38
 ---
 
-local dataValidator = require("media.lua.shared.lib.DataValidator")
+local dataValidator = require("lib/DataValidator")
 
-local value
-dataValidator.isDoubleFloat(value)
+--local value
+--dataValidator.isDoubleFloat(value)
 
 -----@type table
 --local datePartsConverted = {}

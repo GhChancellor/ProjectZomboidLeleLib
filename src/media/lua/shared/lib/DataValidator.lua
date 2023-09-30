@@ -61,4 +61,63 @@ function DataValidator.isDoubleFloat(value)
     return true
 end
 
+--- **Is Table**
+---@param value table
+---@return boolean
+function DataValidator.isTable(value)
+    if type(value) ~= "table" then
+        return false
+    end
+
+    return true
+end
+
+--- **UNTESTED**
+--- **Transform Array List To Table**
+---@param arrayList ArrayList
+---@return table
+function DataValidator.transformArrayListToTable(arrayList)
+    ---@type table
+    local arrayListToTable = {}
+
+    for i = 1, arrayList:size() - 1 do
+        local nameTable = arrayList:get(i)
+        table.insert(arrayListToTable, nameTable)
+    end
+
+    return arrayListToTable
+end
+
+--- **UNTESTED**
+--- **Transform Kahlua Table To Table**
+---@param kahluaTable KahluaTable
+---@return table
+function DataValidator.transformKahluaTableToTable(kahluaTable)
+    local kahluaTableToTable = DataValidator.transformArrayListToTable(kahluaTable)
+
+    local tables = {}
+    for i, v in pairs(kahluaTableToTable) do
+        tables[i] = v
+    end
+
+    return kahluaTableToTable
+end
+
+--- **UNTESTED it's correct but it doesn't work**
+--- -
+--- **Transform Mod Data To Table**
+---@param kahluaTable KahluaTable
+---@return table
+function DataValidator.transformModDataToTable(kahluaTable)
+    ---@type table
+    local conversionTotable ={}
+
+    ---@type table
+    for _, v in pairs(kahluaTable) do
+        table.insert(conversionTotable, v)
+    end
+
+    return conversionTotable
+end
+
 return DataValidator

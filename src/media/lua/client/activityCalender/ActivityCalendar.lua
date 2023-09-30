@@ -6,8 +6,6 @@
 
 ---@class ActivityCalendar
 
--- local characterPz = require("lib/CharacterPZ")
-
 local ActivityCalendar = {}
 
 local dataValidator = require("lib/DataValidator")
@@ -56,14 +54,14 @@ end
 ---@return double seconds
 local function getStarTime()
     ---@type string
-    local date = tostring( getGameTime():getCalender():getTime() )
-    return extractDate(date)
+    --local date = tostring( getGameTime():getCalender():getTime() )
+    --return extractDate(date)
 
     --
     ----local dateFromLua = 1694078266 -- oggi
-    --local dateFromFakePZ = "Fri Jul 09 09:43:41 CEST 1993"
-    --local date = dateFromFakePZ
-    -- return extractDate(date)
+    local dateFromFakePZ = "Fri Jul 09 09:43:41 CEST 1993"
+    local date = dateFromFakePZ
+     return extractDate(date)
     --
 end
 
@@ -103,7 +101,7 @@ end
 ---@return boolean
 function ActivityCalendar.isExpectedDate()
     if not expectedDateInSecond then
-        ActivityCalendar.initDate()
+        ActivityCalendar.initDate(1)
     end
 
     if  getStarTime() >= ActivityCalendar.getExpectedDateInSecond() then
@@ -114,10 +112,10 @@ function ActivityCalendar.isExpectedDate()
 end
 
 --- **Init date**
---- @param int
+--- @param days int
 --- - default 1 day
 function ActivityCalendar.initDate(days)
-    setWaitingDays(days or 1)
+    setWaitingDays(days)
 end
 
 return ActivityCalendar
