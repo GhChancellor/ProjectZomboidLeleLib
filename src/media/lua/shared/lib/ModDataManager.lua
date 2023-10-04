@@ -6,7 +6,6 @@
 
 ---@class ModDataManager
 
-local dataValidator = require("shared/lib/DataValidator")
 local ModDataManager = {}
 
 --- **Save ModData to Harddisk**
@@ -32,13 +31,13 @@ function ModDataManager.read(nameFile)
     local lines = {}
     lines = ModData.get(nameFile)
 
-    local conversionTotable = {}
+    local conversionToTable = {}
 
     for _, v in pairs(lines) do
-        table.insert(conversionTotable, v)
+        table.insert(conversionToTable, v)
     end
 
-    return conversionTotable
+    return conversionToTable
 end
 
 --- **Is modData Exists**

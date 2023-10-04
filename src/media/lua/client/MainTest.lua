@@ -24,12 +24,12 @@ require("lib/CharacterBaseObj")
 local character = getPlayer()
 
 --- **Character Update**
-local function charaterUpdate()
-    character = characterLib.charaterUpdate()
+local function characterUpdate()
+    character = characterLib.characterUpdate()
 end
 
 local function baseProfession()
-    charaterUpdate()
+    characterUpdate()
 
     characterPz.setProfession_PZ(character, debugDiagnostics.Profession.BURGER_FLIPPER)
     local profession = characterPz.getProfession_PZ(character)
@@ -39,17 +39,17 @@ local function baseProfession()
 
     characterPz.removeProfession(character)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function baseKnownRecipes()
-    charaterUpdate()
+    characterUpdate()
 
     local recipe = "Make Pizza"
 
     characterPz.addKnownRecipe(character, recipe)
 
-    charaterUpdate()
+    characterUpdate()
 
     ------- -------------------------------------------------------------
     local knownRecipes = characterPz.getKnownRecipes_PZ(character)
@@ -68,7 +68,7 @@ local function baseKnownRecipes()
     debugDiagnostics.checkTest(character:getKnownRecipes():remove(recipe),
             false, "Remove KnowRecipe")
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function baseTrunkFloatTo2Decimal()
@@ -78,7 +78,7 @@ local function baseTrunkFloatTo2Decimal()
 end
 
 local function baseZombieKills()
-    charaterUpdate()
+    characterUpdate()
 
     characterPz.setZombieKills_PZ(character, 15)
 
@@ -87,11 +87,11 @@ local function baseZombieKills()
 
     characterPz.setZombieKills_PZ(character, 0)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function basePerkBoost()
-    charaterUpdate()
+    characterUpdate()
 
     local boostLevel = 1
 
@@ -102,17 +102,17 @@ local function basePerkBoost()
 
     characterPz.removePerkBoost(character, Perks.Cooking)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function baseMultiplier()
-    charaterUpdate()
+    characterUpdate()
 
     local multiplier = 1.1
     characterPz.addXpMultiplier_PZ(character, Perks.Woodwork, multiplier,
             1, 1)
 
-    charaterUpdate()
+    characterUpdate()
 
     local value = characterPz.getMultiplier_PZ(character, Perks.Woodwork)
 
@@ -121,7 +121,7 @@ local function baseMultiplier()
 
     characterPz.removeMultiplier(character, Perks.Woodwork)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function baseEnumNumbers()
@@ -129,7 +129,7 @@ local function baseEnumNumbers()
 end
 
 local function baseXp()
-    charaterUpdate()
+    characterUpdate()
 
     characterPz.addXP_PZ(character, Perks.Cooking, 75)
     local xp_ = characterPz.getXp(character, Perks.Cooking)
@@ -139,11 +139,11 @@ local function baseXp()
     --- -------------------------------------------------
     characterPz.removePerkLevel(character, Perks.Cooking)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function basePerkLevel()
-    charaterUpdate()
+    characterUpdate()
 
     characterPz.setPerkLevelFromXp(character, Perks.Cooking, 75)
 
@@ -153,11 +153,11 @@ local function basePerkLevel()
     --- -------------------------------------------------
     characterPz.removePerkLevel(character, Perks.Cooking)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function baseTrait()
-    charaterUpdate()
+    characterUpdate()
 
     local trait_ = "Handy"
     characterPz.setTraitsPerk_PZ(character, trait_)
@@ -180,7 +180,7 @@ local function baseTrait()
     --- ------------------------------------------------
     characterPz.removeTrait_PZ(character, "Woodwork")
 
-    charaterUpdate()
+    characterUpdate()
 
     local remove = character:getTraits():remove("Woodwork")
     debugDiagnostics.checkTest(remove, false, "Remove trait")
@@ -203,7 +203,7 @@ local function baseTrait()
 
     debugDiagnostics.checkTest(flag, false, "Remove All Trait")
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function baseConvertLevelToXp()
@@ -313,14 +313,14 @@ end
 --- ------------------------------------------------
 
 local function traitsPerk()
-    charaterUpdate()
+    characterUpdate()
 
     characterPz.setProfession_PZ(character, debugDiagnostics.Profession.CHEF)
 
     local trait_ = "Feeble"
     characterPz.setTraitsPerk_PZ(character, trait_)
 
-    charaterUpdate()
+    characterUpdate()
 
     local CharacterObj01 = CharacterBaseObj:new()
     CharacterObj01 = characterLib.getTraitsPerk(character)
@@ -344,17 +344,17 @@ local function traitsPerk()
     characterPz.removeProfession(character)
     characterPz.removeAllTraits_PZ(character)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function perkProfession()
-    charaterUpdate()
+    characterUpdate()
 
     characterPz.setProfession_PZ(character, debugDiagnostics.Profession.CHEF)
 
     local CharacterObj01 = CharacterBaseObj:new()
 
-    charaterUpdate()
+    characterUpdate()
 
     CharacterObj01 = characterLib.getPerkProfession(character)
 
@@ -369,13 +369,13 @@ local function perkProfession()
     characterPz.removeProfession(character)
     characterPz.removeAllTraits_PZ(character)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 --- ------------------------------------------------------------
 
 local function characterLibAllPerks()
-    charaterUpdate()
+    characterUpdate()
 
     local CharacterObj01 = CharacterBaseObj:new()
     CharacterObj01 = characterLib.getAllPerks(character)
@@ -394,16 +394,16 @@ local function characterLibAllPerks()
     debugDiagnostics.checkTest(profession,
             profession_, "All Skills - Profession")
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function characterLibPerksBoost()
-    charaterUpdate()
+    characterUpdate()
 
     local boost = 1
     characterPz.setPerkBoost_PZ(Perks.Cooking, boost)
 
-    charaterUpdate()
+    characterUpdate()
 
     local CharacterObj01 = CharacterBaseObj:new()
 
@@ -424,17 +424,17 @@ local function characterLibPerksBoost()
 
     characterPz.removePerkBoost(character, Perks.Cooking, boost)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function characterLibKnownRecipes()
-    charaterUpdate()
+    characterUpdate()
 
     local recipe = "Make Pizza"
 
     characterPz.addKnownRecipe(character, recipe)
 
-    charaterUpdate()
+    characterUpdate()
 
     local CharacterObj01 = CharacterBaseObj:new()
     CharacterObj01 = characterLib.getKnownRecipes(character)
@@ -450,18 +450,18 @@ local function characterLibKnownRecipes()
     debugDiagnostics.checkTest(flag,
             true, "KnownRecipes")
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function characterLibMultiplier()
-    charaterUpdate()
+    characterUpdate()
 
     local multiplier = 1.0
 
     characterPz.addXpMultiplier_PZ(character, Perks.Cooking, multiplier,
             characterPz.EnumNumbers.ONE, characterPz.EnumNumbers.ONE)
 
-    charaterUpdate()
+    characterUpdate()
 
     local CharacterObj01 = CharacterBaseObj:new()
     CharacterObj01 = characterLib.getMultiplier(character)
@@ -475,16 +475,16 @@ local function characterLibMultiplier()
 
     characterPz.removeMultiplier(character, Perks.Cooking)
 
-    charaterUpdate()
+    characterUpdate()
 end
 
 local function characterLibDe_EncodePerkDetails()
-    charaterUpdate()
+    characterUpdate()
 
     characterPz.setProfession_PZ(character, debugDiagnostics.Profession.CARPENTER)
     characterPz.setPerkLevelFromXp(character, debugDiagnostics.Perks.WOODWORK, 100.0)
 
-    charaterUpdate()
+    characterUpdate()
 
     local CharacterObj01 = CharacterBaseObj:new()
     local CharacterDecodeObj = CharacterBaseObj:new()
@@ -530,7 +530,7 @@ local function characterLibDe_EncodePerkDetails()
     lines = {}
 
     debugDiagnostics.deleteCharacter()
-    charaterUpdate()
+    characterUpdate()
 end
 
 --- ------------------------------------------------------------

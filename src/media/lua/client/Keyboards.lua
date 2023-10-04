@@ -5,16 +5,13 @@
 ---
 
 
-local dbgLeleLib = require("DebugDiagnostics")
+local debugDiagnostics = require("lib/DebugDiagnostics")
 local modDataManager = require("lib/ModDataManager")
 local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZPz = require("lib/PerkFactoryPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
 local characterLib = require("CharacterLib")
 
--- Perks.Maintenance
--- Perks.Woodwork
--- Perks.Sprinting
 ---@param character IsoGameCharacter
 local function key34(character, key)
     if key == 34 then -- <<<< g
@@ -83,12 +80,4 @@ local function onCustomUIKeyPressed(key)
     key37(character, key) -- k
 end
 
--- ------------------------------------------------------------
--- ------------------------------------------------------------
-
-local function OnGameStart()
-
-end
-
--- Events.OnGameStart.Add(OnGameStart)
 -- Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)

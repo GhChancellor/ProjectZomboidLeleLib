@@ -4,7 +4,7 @@
 --- DateTime: 26/04/23 17:41
 ---
 
-local dbgLeleLib = require("DebugDiagnostics")
+local debugDiagnostics = require("DebugDiagnostics")
 local modDataManager = require("lib/ModDataManager")
 local characterPz = require("lib/CharacterPZ")
 
@@ -46,34 +46,31 @@ local function survivalRewards_TDD()
         readMilReached = v
     end
 
-    dbgLeleLib.checkTest(kilMilReachedValue, readKilMilReached, "Read KilMilReached" )
-    dbgLeleLib.checkTest(milReachedValue, readMilReached, "Read MilReached" )
+    debugDiagnostics.checkTest(kilMilReachedValue, readKilMilReached, "Read KilMilReached" )
+    debugDiagnostics.checkTest(milReachedValue, readMilReached, "Read MilReached" )
 
     modDataManager.remove(kilMilReached)
     modDataManager.remove(milReached)
 
-    dbgLeleLib.checkTest(modDataManager.isExists(kilMilReached),
+    debugDiagnostics.checkTest(modDataManager.isExists(kilMilReached),
             false, "Remove KilMilReached" )
 
-    dbgLeleLib.checkTest(modDataManager.isExists(milReached),
+    debugDiagnostics.checkTest(modDataManager.isExists(milReached),
             false, "Remove MilReached" )
 
     character:getModData().kilMilReached = reset
     character:getModData().milReached = reset
 
-    dbgLeleLib.printLine()
-    dbgLeleLib.displayTest()
-    dbgLeleLib.printLine()
+    debugDiagnostics.printLine()
+    debugDiagnostics.displayTest()
+    debugDiagnostics.printLine()
 end
 
--- Perks.Maintenance
--- Perks.Woodwork
--- Perks.Sprinting
--- self.character:playSound("CloseBook")
 ---@param character IsoGameCharacter
 local function key34(character, key)
     if key == 34 then -- <<<< g
-        print("Key = g >  \n")
+        print("Key = g > survivalRewards_TDD \n")
+        survivalRewards_TDD()
     end
 end
 
@@ -88,32 +85,31 @@ end
 ---@param character IsoGameCharacter
 local function key36(character, key)
     if key == 36 then -- <<<< j
-        print("Key = j > survivalRewards TDD \n")
-        dbgLeleLib.setVerbose(false)
-        survivalRewards_TDD()
+        print("Key = j >  \n")
+
     end
 end
 
 ---@param character IsoGameCharacter
 local function key37(character, key)
     if key == 37 then -- <<<< k
-        print("Key = k > delete \n")
-        character:die()
+        print("Key = k >  \n")
+
     end
 end
 
 ---@param character IsoGameCharacter
 local function key16(character, key)
     if key == 16 then -- <<<< q
-        print("Key = q >  \n")
-
+        print("Key = q > kill Character \n")
+        character:die()
     end
 end
 
 ---@param character IsoGameCharacter
 local function key17(character, key)
     if key == 17 then -- <<<< w
-        print("Key = w >  \n")
+        print("Key = w >   \n")
 
     end
 end
@@ -129,21 +125,13 @@ end
 local function onCustomUIKeyPressed(key)
     local character = getPlayer()
 
-    key16(character, key) -- <<<< q
-    key17(character, key) -- <<<< w
-    key18(character, key) -- <<<< e
-    key34(character, key) -- <<<< g
-    key35(character, key) -- <<<< h
-    key36(character, key) -- <<<< j
-    key37(character, key) -- <<<< k - Kill
-end
-
--- ------------------------------------------------------------
--- ------------------------------------------------------------
-
-local function OnGameStart()
-
+    key16(character, key) -- q kill character
+    key17(character, key) -- w
+    key18(character, key) -- e
+    key34(character, key) -- g
+    key35(character, key) -- h
+    key36(character, key) -- j
+    key37(character, key) -- k
 end
 
 -- Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)
-

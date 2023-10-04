@@ -37,29 +37,29 @@ function DataValidator.isNumber(value)
     return true
 end
 
---- **Is Int**
----@param value int
----@return boolean
-function DataValidator.isInt(value)
-    if not DataValidator.isNumber(value) or
-            math.floor(value) ~= value then
-        return false
-    end
+----- **Is Int**
+-----@param value int
+-----@return boolean
+--function DataValidator.isInt(value)
+--    if not DataValidator.isNumber(value) or
+--            math.floor(value) ~= value then
+--        return false
+--    end
+--
+--    return true
+--end
 
-    return true
-end
-
---- **Is Double Or Float**
----@param value double or float
----@return boolean
-function DataValidator.isDoubleFloat(value)
-    if not DataValidator.isNumber(value) or not
-    (value % 1 ~= 0) then
-        return false
-    end
-
-    return true
-end
+----- **Is Double Or Float**
+-----@param value double or float
+-----@return boolean
+--function DataValidator.isDoubleFloat(value)
+--    if not DataValidator.isNumber(value) or not
+--    (value % 1 ~= 0) then
+--        return false
+--    end
+--
+--    return true
+--end
 
 --- **Is Table**
 ---@param value table
@@ -110,14 +110,14 @@ end
 ---@return table
 function DataValidator.transformModDataToTable(kahluaTable)
     ---@type table
-    local conversionTotable ={}
+    local conversionToTable ={}
 
     ---@type table
     for _, v in pairs(kahluaTable) do
-        table.insert(conversionTotable, v)
+        table.insert(conversionToTable, v)
     end
 
-    return conversionTotable
+    return conversionToTable
 end
 
 return DataValidator

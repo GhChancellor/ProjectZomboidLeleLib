@@ -210,7 +210,7 @@ function CharacterLib.getKnownRecipes(character)
     return CharacterObj01
 end
 
---- **Encode Perk Details convert the CharaterObj into a table. The ModData only accepts a table**
+--- **Encode Perk Details convert the CharacterObj into a table. The ModData only accepts a table**
 ---@param characterObj CharacterBaseObj
 ---@return table
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
@@ -268,7 +268,7 @@ function CharacterLib.decodePerkDetails(characterPerkDetails)
 end
 
 --- **Update all the characteristics of the character**
-function CharacterLib.charaterUpdate()
+function CharacterLib.characterUpdate()
     return getPlayer()
 end
 

@@ -55,14 +55,14 @@ local function character_TDD()
                 recipe, "Recipe")
     end
 
-    -- check multipier
-    local multipier1 =
+    -- check multiplier
+    local multiplier1 =
         characterPz.getMultiplier_PZ(character, Perks.Cooking)
 
-    multipier1 = dataValidator.trunkFloatTo2Decimal(multipier1)
+    multiplier1 = dataValidator.trunkFloatTo2Decimal(multiplier1)
 
     local multiplier2 = 1.0
-    dbgLeleLib.checkTest(multipier1,
+    dbgLeleLib.checkTest(multiplier1,
             multiplier2, "Multiplier")
 
     -- check Calories

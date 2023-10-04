@@ -71,7 +71,7 @@ function CharacterPz.trunkFloatTo2Decimal(value)
     return tonumber(string.format("%.2f", value)) + 0.0
 end
 
---- **Get Charater profession**
+--- **Get Character profession**
 ---@param character IsoGameCharacter
 ---@param profession String
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
@@ -160,7 +160,7 @@ end
 ---@param character IsoGameCharacter
 ---@param perk PerkFactory.Perk
 --- ISPlayerStatsUI.lua 635
---- - IsoGameCharacter : zombie.characters.IsoGameCharact
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 --- - IsoGameCharacter.XP : zombie.characters.IsoGameCharacter.XP
 function CharacterPz.removePerkLevel(character, perk)
@@ -297,7 +297,7 @@ end
 ---@param multiplier float The multiplier value to apply to the XP gain of the specified perk.
 ---@param minLevel int
 ---@param maxLevel int
---- - IsoGameCharacter : zombie.characters.IsoGameCharact
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function CharacterPz.addXpMultiplier_PZ(character, perk, multiplier, minLevel, maxLevel)
     if not character or not perk or not

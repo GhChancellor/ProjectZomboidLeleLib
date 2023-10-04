@@ -108,7 +108,7 @@ end
 function DebugDiagnostics.displayTest()
     DebugDiagnostics.printLine()
     print("------------------CHECK TEST------------------")
-    print("TEST VERIFIED: >>>>>>> ", results.testVerified .. " of " .. (results.passed + results.notPassed))
+    print("TEST VERIFIED: >>>>>>>> ", results.testVerified .. " of " .. (results.passed + results.notPassed))
     print("PASSED: >>>>>>>>>>>>>>> ", results.passed)
     print("NOT PASSED:  >>>>>>>>>> ", results.notPassed)
 
