@@ -85,7 +85,7 @@ end
 ---@param perk PerkFactory.Perk
 ---@return PerkDetailsObj getPerkDetailsObj()
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
---- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory.Perk
 function CharacterLib.getCurrentSkill(character, perk)
     -- Perks.Maintenance
     -- Perks.Woodwork
@@ -210,7 +210,7 @@ function CharacterLib.getKnownRecipes(character)
     return CharacterObj01
 end
 
---- **Encode Perk Details convert the CharacterObj into a table. The ModData only accepts a table**
+--- **Encode Perk Details convert the CharaterObj into a table. The ModData only accepts a table**
 ---@param characterObj CharacterBaseObj
 ---@return table
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter

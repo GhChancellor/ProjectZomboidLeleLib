@@ -5,13 +5,20 @@
 ---
 
 
-local dbgLeleLib = require("DebugDiagnostics")
-local modDataManager = require("lib/ModDataManager")
-local characterPz = require("lib/CharacterPZ")
-local perkFactoryPZPz = require("lib/PerkFactoryPZ")
-local isoPlayerPZ = require("lib/IsoPlayerPZ")
-local characterLib = require("CharacterLib")
-local activityCalendar = require("ActivityCalendar")
+
+--local debugDiagnostics = require("lib/DebugDiagnostics")
+--local modDataManager = require("lib/ModDataManager")
+--local characterPz = require("lib/CharacterPZ")
+--local perkFactoryPZPz = require("lib/PerkFactoryPZ")
+--local isoPlayerPZ = require("lib/IsoPlayerPZ")
+--local characterLib = require("CharacterLib")
+--local activityCalendar = require("ActivityCalendar")
+--local activityCalendar = require("media.lua.client.activityCalender.ActivityCalendar")
+
+
+--activityCalendar.setMinimunDaysBeforeWriteBook(1)
+--print(activityCalendar.isExpectedDate())
+
 
 -- Perks.Maintenance
 -- Perks.Woodwork
@@ -21,11 +28,11 @@ local activityCalendar = require("ActivityCalendar")
 local function key34(character, key)
     if key == 34 then -- <<<< g
         print("Key = g > activityCalendar \n")
-        activityCalendar.initDate()
+        --activityCalendar.initDate()
 
-        dbgLeleLib.printLine()
-        print(activityCalendar.isExpectedDate())
-        dbgLeleLib.printLine()
+        --debugDiagnostics.printLine()
+        --print(activityCalendar.isExpectedDate())
+        --debugDiagnostics.printLine()
 
 
         --local date_ = getGameTime():getCalender():getTime()

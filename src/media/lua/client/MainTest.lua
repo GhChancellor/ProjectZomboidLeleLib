@@ -25,6 +25,7 @@ local character = getPlayer()
 
 --- **Character Update**
 local function characterUpdate()
+    -- TODO - sostituire characterLib con characterPz
     character = characterLib.characterUpdate()
 end
 
@@ -32,6 +33,8 @@ local function baseProfession()
     characterUpdate()
 
     characterPz.setProfession_PZ(character, debugDiagnostics.Profession.BURGER_FLIPPER)
+
+    ---@type string
     local profession = characterPz.getProfession_PZ(character)
 
     debugDiagnostics.checkTest(profession , debugDiagnostics.Profession.BURGER_FLIPPER,
@@ -45,6 +48,7 @@ end
 local function baseKnownRecipes()
     characterUpdate()
 
+    ---@type string
     local recipe = "Make Pizza"
 
     characterPz.addKnownRecipe(character, recipe)
@@ -52,6 +56,7 @@ local function baseKnownRecipes()
     characterUpdate()
 
     ------- -------------------------------------------------------------
+    ---@type List
     local knownRecipes = characterPz.getKnownRecipes_PZ(character)
 
     if knownRecipes then
@@ -93,6 +98,7 @@ end
 local function basePerkBoost()
     characterUpdate()
 
+    ---@type int
     local boostLevel = 1
 
     characterPz.setPerkBoost_PZ(character, Perks.Cooking, boostLevel)
@@ -108,6 +114,7 @@ end
 local function baseMultiplier()
     characterUpdate()
 
+    ---@type float
     local multiplier = 1.1
     characterPz.addXpMultiplier_PZ(character, Perks.Woodwork, multiplier,
             1, 1)
@@ -132,6 +139,8 @@ local function baseXp()
     characterUpdate()
 
     characterPz.addXP_PZ(character, Perks.Cooking, 75)
+
+    ---@type float
     local xp_ = characterPz.getXp(character, Perks.Cooking)
 
     debugDiagnostics.checkTest(xp_, 75, "Xp")
@@ -147,6 +156,7 @@ local function basePerkLevel()
 
     characterPz.setPerkLevelFromXp(character, Perks.Cooking, 75)
 
+    ---@type int
     local level = characterPz.getPerkLevel_PZ(character, Perks.Cooking)
 
     debugDiagnostics.checkTest(level, 1, "PerkLevel")
@@ -159,9 +169,12 @@ end
 local function baseTrait()
     characterUpdate()
 
+    ---@type string
     local trait_ = "Handy"
+
     characterPz.setTraitsPerk_PZ(character, trait_)
 
+    ---@type List
     local traits_PZ = characterPz.getTraitsPerk_PZ(character)
 
     for i = 0, traits_PZ:size() - 1 do
@@ -189,7 +202,9 @@ local function baseTrait()
 
     characterPz.removeAllTraits_PZ(character)
 
+    ---@type boolean
     local flag = false
+
     for i = 0, traits_PZ:size() - 1 do
         ---@type TraitFactory.Trait
         local trait = TraitFactory.getTrait(traits_PZ:get(i) ):getXPBoostMap()
@@ -207,6 +222,7 @@ local function baseTrait()
 end
 
 local function baseConvertLevelToXp()
+    ---@type float
     local xp = perkFactoryPZ.convertLevelToXp(Perks.Cooking, 1)
 
     debugDiagnostics.checkTest(xp, 75, "ConvertLevelToXp")
@@ -218,23 +234,31 @@ local function basePerkName()
 end
 
 local function baseParent()
+    ---@type string
     local parent_ = "Combat"
+    ---@type string
     local parent = perkFactoryPZ.getParent_PZ(Perks.Maintenance)
     debugDiagnostics.checkTest(parent_, parent, "Parent" )
 end
 
 local function baseHoursSurvived()
+    ---@type float
     local hoursSurvived = 1.0
+    ---@type float
     local hoursSurvived_
     isoPlayerPZ.setHoursSurvived_PZ(hoursSurvived)
 
+    ---@type float
     hoursSurvived_ = isoPlayerPZ.getHoursSurvived_PZ()
     debugDiagnostics.checkTest(hoursSurvived_, hoursSurvived, "Hours Survived" )
 end
 
 local function baseCalories()
+    ---@type float
     local calories = 20.1
+    ---@type float
     local calories_
+    ---@type double
     local trunckedCalories
     isoPlayerPZ.setCalories_PZ(calories)
 
@@ -246,7 +270,9 @@ local function baseCalories()
 end
 
 local function baseWeight()
+    ---@type int
     local weight = 83
+    ---@type int
     local weight_
     isoPlayerPZ.setWeight_PZ(weight)
 
@@ -300,7 +326,9 @@ local function baseUserName()
         debugDiagnostics.checkTest(false, true, "Get UserName")
     end
 
+    ---@type string
     local newUserName = "paolo"
+
     isoPlayerPZ.setUserName(newUserName)
 
     if isoPlayerPZ.getUserName() == newUserName  then
@@ -317,6 +345,7 @@ local function traitsPerk()
 
     characterPz.setProfession_PZ(character, debugDiagnostics.Profession.CHEF)
 
+    ---@type string
     local trait_ = "Feeble"
     characterPz.setTraitsPerk_PZ(character, trait_)
 
@@ -325,7 +354,9 @@ local function traitsPerk()
     local CharacterObj01 = CharacterBaseObj:new()
     CharacterObj01 = characterLib.getTraitsPerk(character)
 
+    ---@type boolean
     local flag = false
+
     if CharacterObj01:getPerkDetails() then
         flag = true
     end
@@ -334,6 +365,7 @@ local function traitsPerk()
             true, "Get PerkDetails")
 
     flag = false
+
     if CharacterObj01:getTraits() then
         flag = true
     end
@@ -358,7 +390,9 @@ local function perkProfession()
 
     CharacterObj01 = characterLib.getPerkProfession(character)
 
+    ---@type boolean
     local flag = false
+
     if CharacterObj01:getPerkDetails() then
         flag = true
     end
@@ -380,7 +414,9 @@ local function characterLibAllPerks()
     local CharacterObj01 = CharacterBaseObj:new()
     CharacterObj01 = characterLib.getAllPerks(character)
 
+    ---@type boolean
     local flag = false
+
     if CharacterObj01:getPerkDetails() then
         flag = true
     end
@@ -388,7 +424,9 @@ local function characterLibAllPerks()
     debugDiagnostics.checkTest(true,
             true, "All Skills")
 
+    ---@type string
     local profession = CharacterObj01:getProfession()
+    ---@type string
     local profession_ = characterPz.getProfession_PZ(character)
 
     debugDiagnostics.checkTest(profession,
@@ -400,6 +438,7 @@ end
 local function characterLibPerksBoost()
     characterUpdate()
 
+    ---@type int
     local boost = 1
     characterPz.setPerkBoost_PZ(Perks.Cooking, boost)
 
@@ -409,6 +448,7 @@ local function characterLibPerksBoost()
 
     CharacterObj01 = characterLib.getPerksBoost(character)
 
+    ---@type boolean
     local flag = false
 
     for _, v in pairs(CharacterObj01:getPerkDetails()) do
@@ -430,6 +470,7 @@ end
 local function characterLibKnownRecipes()
     characterUpdate()
 
+    ---@type string
     local recipe = "Make Pizza"
 
     characterPz.addKnownRecipe(character, recipe)
@@ -441,6 +482,7 @@ local function characterLibKnownRecipes()
 
     ---@type boolean
     local flag = false
+
     for _, v in pairs(CharacterObj01:getRecipes()) do
         if v == recipe then
             flag = true
@@ -456,6 +498,7 @@ end
 local function characterLibMultiplier()
     characterUpdate()
 
+    ---@type float
     local multiplier = 1.0
 
     characterPz.addXpMultiplier_PZ(character, Perks.Cooking, multiplier,
@@ -489,16 +532,23 @@ local function characterLibDe_EncodePerkDetails()
     local CharacterObj01 = CharacterBaseObj:new()
     local CharacterDecodeObj = CharacterBaseObj:new()
 
+    ---@type PerkFactory.Perk
     local perk = perkFactoryPZ.getPerk_PZ(debugDiagnostics.Perks.WOODWORK)
+    ---@type int
     local level = characterPz.getPerkLevel_PZ(character, perk)
+    ---@type float
     local xp = characterPz.getXp(character, perk)
 
+    ---@type PerkFactory.Perk
     local perk2
+    ---@type int
     local level2
+    ---@type float
     local xp2
 
     CharacterObj01:addPerkDetails(perk, level, xp)
 
+    ---@type table
     local lines = {}
 
     -- encode

@@ -11,6 +11,8 @@ local ModDataManager = {}
 --- **Save ModData to Harddisk**
 ---@param nameFile String
 ---@param values table
+---@return void
+--- - ModData : zombie.world.moddata.ModData
 function ModDataManager.save(nameFile, values)
     if not nameFile or not values then
         return nil
@@ -23,6 +25,7 @@ end
 --- **Read ModData**
 ---@param nameFile String
 ---@return table
+--- - ModData : zombie.world.moddata.ModData
 function ModDataManager.read(nameFile)
     if not nameFile then
         return nil
@@ -31,13 +34,13 @@ function ModDataManager.read(nameFile)
     local lines = {}
     lines = ModData.get(nameFile)
 
-    local conversionToTable = {}
+    local conversionTotable = {}
 
     for _, v in pairs(lines) do
-        table.insert(conversionToTable, v)
+        table.insert(conversionTotable, v)
     end
 
-    return conversionToTable
+    return conversionTotable
 end
 
 --- **Is modData Exists**
@@ -54,6 +57,7 @@ end
 
 --- **Remove modData**
 ---@param nameFile String
+---@return void
 --- - ModData : zombie.world.moddata.ModData
 function ModDataManager.remove(nameFile)
     if not nameFile then

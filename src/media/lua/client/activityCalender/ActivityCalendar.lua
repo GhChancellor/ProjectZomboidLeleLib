@@ -6,6 +6,8 @@
 
 ---@class ActivityCalendar
 
+
+--
 local ActivityCalendar = {}
 
 local dataValidator = require("lib/DataValidator")
@@ -38,31 +40,21 @@ local function extractDate(date)
 
     --@type table
     local datePartsConverted = {
+        ---@field number
         year = tonumber(dateParts[6]),
+        ---@field number
         month = month[dateParts[2]],
+        ---@field number
         day = tonumber(dateParts[3]),
+        ---@field number
         hour = 0,
+        ---@field number
         min = 0,
+        ---@field number
         sec = 0
     }
 
     return os.time(datePartsConverted)
-end
-
---- **Get Star Time**
---- - Format date: Fri Jul 09 09:43:41 CEST 1993
----@return double seconds
-local function getStarTime()
-    ---@type string
-    --local date = tostring( getGameTime():getCalender():getTime() )
-    --return extractDate(date)
-
-    --
-    ----local dateFromLua = 1694078266 -- oggi
-    local dateFromFakePZ = "Fri Jul 09 09:43:41 CEST 1993"
-    local date = dateFromFakePZ
-     return extractDate(date)
-    --
 end
 
 --- **Get Seconds From Days**
@@ -79,14 +71,32 @@ local function getDaysFromSeconds(seconds)
     return seconds / SECOND_IN_DAY
 end
 
+--- **Get Star Time**
+--- - Format date: Fri Jul 09 09:43:41 CEST 1993
+---@return double seconds
+local function getStarTime()
+    ---@type string
+    --local date = tostring( getGameTime():getCalender():getTime() )
+    --return extractDate(date)
+
+    -----------------------TEST MOD----------------------
+    ----local dateFromLua = 1694078266 -- oggi
+    local dateFromFakePZ = "Fri Jul 09 09:43:41 CEST 1993"
+    local date = dateFromFakePZ
+    return extractDate(date)
+    -----------------------------------------------------
+end
+
 --- **Set Waiting Days**
 ---@param waitingDays int
-local function setWaitingDays(waitingDays)
+---@return void
+function ActivityCalendar.setWaitingOfDays(waitingDays)
     expectedDateInSecond = getStarTime() + getSecondsFromDays(waitingDays)
 end
 
 --- **Set Expected Date In Seconds**
 ---@param expectedDate double
+---@return void
 function ActivityCalendar.setExpectedDateInSecond(expectedDate)
     expectedDateInSecond = expectedDate
 end
@@ -97,11 +107,20 @@ function ActivityCalendar.getExpectedDateInSecond()
     return expectedDateInSecond
 end
 
+----- **Set Minimun Days Before Write Book**
+-----@param days int
+-----@return void
+----- - default 1 day
+--function ActivityCalendar.setMinimunDaysBeforeWriteBook(days)
+--    setWaitingOfDays(days)
+--end
+
 --- **Is Expected Date**
 ---@return boolean
 function ActivityCalendar.isExpectedDate()
     if not expectedDateInSecond then
-        ActivityCalendar.initDate(1)
+        --ActivityCalendar.setMinimunDaysBeforeWriteBook(1)
+        ActivityCalendar.setWaitingOfDays(1)
     end
 
     if  getStarTime() >= ActivityCalendar.getExpectedDateInSecond() then
@@ -109,13 +128,6 @@ function ActivityCalendar.isExpectedDate()
     end
 
     return false
-end
-
---- **Init date**
---- @param days int
---- - default 1 day
-function ActivityCalendar.initDate(days)
-    setWaitingDays(days)
 end
 
 return ActivityCalendar
