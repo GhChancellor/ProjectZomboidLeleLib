@@ -45,14 +45,6 @@ local function key37(character, key)
 end
 
 ---@param character IsoGameCharacter
-local function key16(character, key)
-    if key == 16 then -- <<<< q
-        print("Key = q > kill Character \n")
-        character:die()
-    end
-end
-
----@param character IsoGameCharacter
 local function key17(character, key)
     if key == 17 then -- <<<< w
         print("Key = w >   \n")
@@ -65,6 +57,14 @@ local function key18(character, key)
     if key == 18 then -- <<<< e
         print("Key = e >  \n")
 
+    end
+end
+
+---@param character IsoGameCharacter
+local function key16(character, key)
+    if key == 16 then -- <<<< q
+        print("Key = q > kill Character \n")
+        character:die()
     end
 end
 

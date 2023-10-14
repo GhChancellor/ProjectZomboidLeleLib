@@ -21,12 +21,11 @@ require("lib/CharacterBaseObj")
 
 ---@type IsoGameCharacter
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
-local character = getPlayer()
+local character
 
 --- **Character Update**
 local function characterUpdate()
-    -- TODO - sostituire characterLib con characterPz
-    character = characterLib.characterUpdate()
+    character = debugDiagnostics.characterUpdate()
 end
 
 local function baseProfession()
@@ -634,6 +633,7 @@ local function key34(character, key)
         debugDiagnostics.setVerbose(false)
         baseTest()
         characterLibTest()
+        debugDiagnostics.createBasicCharacter()
     end
 end
 

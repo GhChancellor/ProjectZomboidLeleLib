@@ -4,37 +4,19 @@
 --- DateTime: 01/10/23 12:03
 ---
 
-local debugDiagnostics = require("DebugDiagnostics")
+local debugDiagnostics = require("lib/DebugDiagnostics")
 local modDataManager = require("lib/ModDataManager")
 local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZPz = require("lib/PerkFactoryPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
 local characterLib = require("CharacterLib")
 
--- ** print ERROR
----@param errorMsg string
-local function msgError(errorMsg)
-    local destra = ">>>>>>>>>>>>>>>>>> "
-    local sinistra = "<<<<<<<<<<<<<<<<<<< "
-
-    local messaggeError = "ERROR: " .. destra .. tostring("nononono ") .. sinistra
-
-    error(messaggeError)
-end
-
 ---@param character IsoGameCharacter
 local function key34(character, key)
     if key == 34 then -- <<<< g
         print("Key = g >  \n")
+        debugDiagnostics.deleteCharacter()
 
-        local character
-
-        --dbgError(character)
-
-        --if not character then
-        --   --print("character is nil")
-        --   error("character is nil")
-        --end
     end
 end
 
