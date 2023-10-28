@@ -6,9 +6,6 @@
 
 -- Update 1850 - 14-09-2023
 
--- TODO Valutare un controllo per il valore recipe se non è string CharacterPz.addKnownRecipe(character, recipe) e CharacterPz.setZombieKills_PZ(character, killZombies)
---
-
 local characterLib = require("CharacterLib")
 local characterPz = require("lib/CharacterPZ")
 local dataValidator = require("lib/DataValidator")
@@ -350,8 +347,7 @@ local function traitsPerk()
 
     characterUpdate()
 
-    local CharacterObj01 = CharacterBaseObj:new()
-    CharacterObj01 = characterLib.getTraitsPerk(character)
+    local CharacterObj01 = characterLib.getTraitsPerk(character)
 
     ---@type boolean
     local flag = false
@@ -383,11 +379,9 @@ local function perkProfession()
 
     characterPz.setProfession_PZ(character, debugDiagnostics.Profession.CHEF)
 
-    local CharacterObj01 = CharacterBaseObj:new()
-
     characterUpdate()
 
-    CharacterObj01 = characterLib.getPerkProfession(character)
+    local CharacterObj01 = characterLib.getPerkProfession(character)
 
     ---@type boolean
     local flag = false
@@ -410,8 +404,7 @@ end
 local function characterLibAllPerks()
     characterUpdate()
 
-    local CharacterObj01 = CharacterBaseObj:new()
-    CharacterObj01 = characterLib.getAllPerks(character)
+    local CharacterObj01 = characterLib.getAllPerks(character)
 
     ---@type boolean
     local flag = false
@@ -443,9 +436,7 @@ local function characterLibPerksBoost()
 
     characterUpdate()
 
-    local CharacterObj01 = CharacterBaseObj:new()
-
-    CharacterObj01 = characterLib.getPerksBoost(character)
+    local CharacterObj01 = characterLib.getPerksBoost(character)
 
     ---@type boolean
     local flag = false
@@ -476,8 +467,7 @@ local function characterLibKnownRecipes()
 
     characterUpdate()
 
-    local CharacterObj01 = CharacterBaseObj:new()
-    CharacterObj01 = characterLib.getKnownRecipes(character)
+    local CharacterObj01 = characterLib.getKnownRecipes(character)
 
     ---@type boolean
     local flag = false
@@ -505,8 +495,7 @@ local function characterLibMultiplier()
 
     characterUpdate()
 
-    local CharacterObj01 = CharacterBaseObj:new()
-    CharacterObj01 = characterLib.getMultiplier(character)
+    local CharacterObj01 = characterLib.getMultiplier(character)
 
     for _, v in pairs(CharacterObj01:getPerkDetails()) do
         if v:getPerk() == Perks.Cooking then
@@ -550,7 +539,7 @@ local function characterLibDe_EncodePerkDetails()
     ---@type table
     local lines = {}
 
-    -- encode
+    --- **Encode**
     for _, v in pairs(CharacterObj01:getPerkDetails()) do
         lines = characterLib.encodePerkDetails(CharacterObj01)
     end
@@ -559,14 +548,14 @@ local function characterLibDe_EncodePerkDetails()
 
     for _, v in pairs(CharacterObj01:getPerkDetails()) do
         perk = v:getPerk()
-        level = v:getLevel()
+        level = v:getCurrentLevel()
         xp = v:getXp()
     end
 
-    -- decode
+    --- **Decode**
     for _, v in pairs(CharacterDecodeObj:getPerkDetails()) do
         perk2 = v:getPerk()
-        level2 = v:getLevel()
+        level2 = v:getCurrentLevel()
         xp2 = v:getXp()
     end
 

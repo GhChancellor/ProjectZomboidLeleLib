@@ -4,9 +4,9 @@
 --- DateTime: 26/04/23 17:41
 ---
 
-local debugDiagnostics = require("DebugDiagnostics")
+local debugDiagnostics = require("lib/DebugDiagnostics")
 local modDataManager = require("lib/ModDataManager")
-local characterPz = require("lib/CharacterPZ")
+local patchSurvivalRewards = require("patchSurvivalRewards/PatchSurvivalRewards")
 
 local kilMilReachedValue = 15
 local milReachedValue = 10
@@ -16,60 +16,77 @@ local kilMilReached = "kilMilReachedX"
 local milReached = "milReachedX"
 
 ---@param character IsoGameCharacter
---- - zombie.characters.IsoGameCharacter
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 local function survivalRewards_TDD()
     local character = getPlayer()
 
     character:getModData().kilMilReached = kilMilReachedValue
     character:getModData().milReached = milReachedValue
 
+    ---@type boolean
+    local modIsActive = patchSurvivalRewards.isModActive()
+    debugDiagnostics.checkTest(modIsActive, true, "Mod is Active")
+
+    ---@type table
+    local lines = {}
+    table.insert(lines, character:getModData().kilMilReached)
     modDataManager.save(kilMilReached,
-            character:getModData().kilMilReached )
+            lines )
 
+    lines = {}
+    table.insert(lines, character:getModData().milReached)
     modDataManager.save(milReached,
-            character:getModData().milReached )
+            lines )
 
+    ---@type table
     local readKilMilReacheds = {}
     readKilMilReacheds = modDataManager.read(kilMilReached)
 
+    ---@type table
     local readMilReacheds = {}
     readMilReacheds =modDataManager.read(milReached)
 
+    ---@type int
     local readKilMilReached = 0
+
+    ---@type int
     local readMilReached = 0
 
-    for i, v in pairs(readKilMilReacheds) do
-        readKilMilReached = v
-    end
+    readKilMilReached = readKilMilReacheds[1]
 
-    for i, v in pairs(readMilReacheds) do
-        readMilReached = v
-    end
+    readMilReached = readMilReacheds[1]
 
+    --- **Check KilMilReached**
     debugDiagnostics.checkTest(kilMilReachedValue, readKilMilReached, "Read KilMilReached" )
+
+    --- **Check MilReached**
     debugDiagnostics.checkTest(milReachedValue, readMilReached, "Read MilReached" )
 
+    --- **Remove KilMilReached**
     modDataManager.remove(kilMilReached)
+
+    --- **Remove MilReached**
     modDataManager.remove(milReached)
 
+    --- **Check Remove KilMilReached**
     debugDiagnostics.checkTest(modDataManager.isExists(kilMilReached),
             false, "Remove KilMilReached" )
 
+    --- **Check Remove MilReached**
     debugDiagnostics.checkTest(modDataManager.isExists(milReached),
             false, "Remove MilReached" )
 
     character:getModData().kilMilReached = reset
     character:getModData().milReached = reset
 
-    debugDiagnostics.printLine()
     debugDiagnostics.displayTest()
-    debugDiagnostics.printLine()
 end
 
 ---@param character IsoGameCharacter
 local function key34(character, key)
     if key == 34 then -- <<<< g
-        print("Key = g > survivalRewards_TDD \n")
+        print("Key = g >  \n")
+        debugDiagnostics.setVerbose(false)
         survivalRewards_TDD()
     end
 end
@@ -99,14 +116,6 @@ local function key37(character, key)
 end
 
 ---@param character IsoGameCharacter
-local function key16(character, key)
-    if key == 16 then -- <<<< q
-        print("Key = q > kill Character \n")
-        character:die()
-    end
-end
-
----@param character IsoGameCharacter
 local function key17(character, key)
     if key == 17 then -- <<<< w
         print("Key = w >   \n")
@@ -122,6 +131,14 @@ local function key18(character, key)
     end
 end
 
+---@param character IsoGameCharacter
+local function key16(character, key)
+    if key == 16 then -- <<<< q
+        print("Key = q > kill Character \n")
+        character:die()
+    end
+end
+
 local function onCustomUIKeyPressed(key)
     local character = getPlayer()
 
@@ -134,4 +151,4 @@ local function onCustomUIKeyPressed(key)
     key37(character, key) -- k
 end
 
--- Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)
+--Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)
