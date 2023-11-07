@@ -4,6 +4,7 @@
 --- DateTime: 27/06/23 11:33
 ---
 
+-- https://theindiestone.com/forums/index.php?/topic/9799-key-code-reference/
 
 local debugDiagnostics = require("DebugDiagnostics")
 local modDataManager = require("lib/ModDataManager")
@@ -11,6 +12,14 @@ local characterPz = require("lib/CharacterPZ")
 local perkFactoryPZPz = require("lib/PerkFactoryPZ")
 local isoPlayerPZ = require("lib/IsoPlayerPZ")
 local characterLib = require("CharacterLib")
+
+---@param character IsoGameCharacter
+local function key24(character, key)
+    if key == 24 then -- <<<< o
+        print("Key = o >  \n")
+
+    end
+end
 
 ---@param character IsoGameCharacter
 local function key34(character, key)
@@ -74,6 +83,7 @@ local function onCustomUIKeyPressed(key)
     key16(character, key) -- q kill character
     key17(character, key) -- w
     key18(character, key) -- e
+    key24(character, key) -- o
     key34(character, key) -- g
     key35(character, key) -- h
     key36(character, key) -- j

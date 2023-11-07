@@ -42,15 +42,16 @@ function ErrHandler.validateParam(value, dataValidatorFn, errMsg)
 end
 
 ErrHandler.err = {
-    IS_NULL_CHARACTERS = "is null characters",
-    IS_NULL_PERK = "is null perk",
-    IS_NULL_XP = "is null xp",
-    IS_NULL = "is null",
-    IS_NOT_STRING = "is not string",
     IS_NOT_BOOLEAN = "is not boolean",
     IS_NOT_DOUBLE_FLOAT = "is not double float",
     IS_NOT_INT = "is not int",
+    IS_NOT_NUMBER = "is not number",
+    IS_NOT_STRING = "is not string",
     IS_NOT_TABLE = "is not table",
+    IS_NULL = "is null",
+    IS_NULL_CHARACTERS = "is null characters",
+    IS_NULL_PERK = "is null perk",
+    IS_NULL_XP = "is null xp",
 }
 
 

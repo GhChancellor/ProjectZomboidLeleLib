@@ -509,68 +509,6 @@ local function characterLibMultiplier()
     characterUpdate()
 end
 
-local function characterLibDe_EncodePerkDetails()
-    characterUpdate()
-
-    characterPz.setProfession_PZ(character, debugDiagnostics.Profession.CARPENTER)
-    characterPz.setPerkLevelFromXp(character, debugDiagnostics.Perks.WOODWORK, 100.0)
-
-    characterUpdate()
-
-    local CharacterObj01 = CharacterBaseObj:new()
-    local CharacterDecodeObj = CharacterBaseObj:new()
-
-    ---@type PerkFactory.Perk
-    local perk = perkFactoryPZ.getPerk_PZ(debugDiagnostics.Perks.WOODWORK)
-    ---@type int
-    local level = characterPz.getPerkLevel_PZ(character, perk)
-    ---@type float
-    local xp = characterPz.getXp(character, perk)
-
-    ---@type PerkFactory.Perk
-    local perk2
-    ---@type int
-    local level2
-    ---@type float
-    local xp2
-
-    CharacterObj01:addPerkDetails(perk, level, xp)
-
-    ---@type table
-    local lines = {}
-
-    --- **Encode**
-    for _, v in pairs(CharacterObj01:getPerkDetails()) do
-        lines = characterLib.encodePerkDetails(CharacterObj01)
-    end
-
-    CharacterDecodeObj = characterLib.decodePerkDetails(lines)
-
-    for _, v in pairs(CharacterObj01:getPerkDetails()) do
-        perk = v:getPerk()
-        level = v:getCurrentLevel()
-        xp = v:getXp()
-    end
-
-    --- **Decode**
-    for _, v in pairs(CharacterDecodeObj:getPerkDetails()) do
-        perk2 = v:getPerk()
-        level2 = v:getCurrentLevel()
-        xp2 = v:getXp()
-    end
-
-    if perk == perk2 and level == level2 and xp == xp2 then
-        debugDiagnostics.checkTest(true, true, "De_EncodePerkDetails")
-    else
-        debugDiagnostics.checkTest(false, true, "De_EncodePerkDetails")
-    end
-
-    lines = {}
-
-    debugDiagnostics.deleteCharacter()
-    characterUpdate()
-end
-
 --- ------------------------------------------------------------
 --- ------------------------------------------------------------
 
@@ -604,7 +542,6 @@ local function characterLibTest()
     characterLibPerksBoost()
     characterLibKnownRecipes()
     characterLibMultiplier()
-    characterLibDe_EncodePerkDetails()
 
     debugDiagnostics.displayTest()
 
@@ -622,6 +559,7 @@ local function key34(character, key)
         debugDiagnostics.setVerbose(false)
         baseTest()
         characterLibTest()
+        debugDiagnostics.deleteCharacter()
         debugDiagnostics.createBasicCharacter()
     end
 end

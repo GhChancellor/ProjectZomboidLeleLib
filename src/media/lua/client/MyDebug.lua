@@ -15,7 +15,6 @@ local characterLib = require("CharacterLib")
 local function key34(character, key)
     if key == 34 then -- <<<< g
         print("Key = g >  \n")
-        debugDiagnostics.deleteCharacter()
 
     end
 end
